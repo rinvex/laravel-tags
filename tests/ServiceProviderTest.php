@@ -6,9 +6,9 @@ namespace Rinvex\Taggable\Test;
 
 use ReflectionClass;
 use PHPUnit_Framework_TestCase;
-use Rinvex\Taggable\TaggableServiceProvider;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
+use Rinvex\Taggable\TaggableServiceProvider;
 
 class ServiceProviderTest extends PHPUnit_Framework_TestCase
 {
