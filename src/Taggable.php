@@ -114,7 +114,7 @@ trait Taggable
         });
 
         static::deleted(function (Model $taggableModel) {
-            $taggableModel->retag(null);
+            $taggableModel->tags()->detach();
         });
     }
 

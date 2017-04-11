@@ -112,6 +112,9 @@ $post->untag(['my-new-tag']);
 $post->retag(['my-new-tag', 'my-brand-new-tag']);
 
 // Remove all attached tags
+$post->tags()->detach();
+
+// Alternatively you can remove all attached tags as follows
 $post->retag(null);
 
 // Get attached tags collection
