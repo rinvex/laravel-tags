@@ -99,7 +99,7 @@ trait Taggable
     }
 
     /**
-     * Save attached tag(s) to the model.
+     * Boot the taggable trait for a model.
      *
      * @return void
      */
@@ -131,16 +131,16 @@ trait Taggable
     }
 
     /**
-     * Filter tags with type.
+     * Filter tags with group.
      *
-     * @param string|null $type
+     * @param string|null $group
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function tagsWithType(string $type = null): Collection
+    public function tagsWithGroup(string $group = null): Collection
     {
-        return $this->tags->filter(function (Tag $tag) use ($type) {
-            return $tag->type === $type;
+        return $this->tags->filter(function (Tag $tag) use ($group) {
+            return $tag->group === $group;
         });
     }
 
@@ -150,18 +150,18 @@ trait Taggable
      * @param \Illuminate\Database\Eloquent\Builder              $query
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
      * @param string                                             $column
-     * @param string                                             $type
+     * @param string                                             $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithAllTags(Builder $query, $tags, string $column = 'slug', string $type = null): Builder
+    public function scopeWithAllTags(Builder $query, $tags, string $column = 'slug', string $group = null): Builder
     {
         $tags = static::isTagsStringBased($tags) ? $tags : static::hydrateTags($tags)->pluck($column);
 
-        collect($tags)->each(function ($tag) use ($query, $column, $type) {
-            $query->whereHas('tags', function (Builder $query) use ($tag, $column, $type) {
-                return $query->where($column, $tag)->when($type, function (Builder $query) use ($type) {
-                    return $query->where('type', $type);
+        collect($tags)->each(function ($tag) use ($query, $column, $group) {
+            $query->whereHas('tags', function (Builder $query) use ($tag, $column, $group) {
+                return $query->where($column, $tag)->when($group, function (Builder $query) use ($group) {
+                    return $query->where('group', $group);
                 });
             });
         });
@@ -175,17 +175,17 @@ trait Taggable
      * @param \Illuminate\Database\Eloquent\Builder              $query
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
      * @param string                                             $column
-     * @param string                                             $type
+     * @param string                                             $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithAnyTags(Builder $query, $tags, string $column = 'slug', string $type = null): Builder
+    public function scopeWithAnyTags(Builder $query, $tags, string $column = 'slug', string $group = null): Builder
     {
         $tags = static::isTagsStringBased($tags) ? $tags : static::hydrateTags($tags)->pluck($column);
 
-        return $query->whereHas('tags', function (Builder $query) use ($tags, $column, $type) {
-            $query->whereIn($column, (array) $tags)->when($type, function (Builder $query) use ($type) {
-                return $query->where('type', $type);
+        return $query->whereHas('tags', function (Builder $query) use ($tags, $column, $group) {
+            $query->whereIn($column, (array) $tags)->when($group, function (Builder $query) use ($group) {
+                return $query->where('group', $group);
             });
         });
     }
@@ -196,13 +196,13 @@ trait Taggable
      * @param \Illuminate\Database\Eloquent\Builder              $query
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
      * @param string                                             $column
-     * @param string                                             $type
+     * @param string                                             $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithTags(Builder $query, $tags, string $column = 'slug', string $type = null): Builder
+    public function scopeWithTags(Builder $query, $tags, string $column = 'slug', string $group = null): Builder
     {
-        return static::scopeWithAnyTags($query, $tags, $column, $type);
+        return static::scopeWithAnyTags($query, $tags, $column, $group);
     }
 
     /**
@@ -211,17 +211,17 @@ trait Taggable
      * @param \Illuminate\Database\Eloquent\Builder          $query
      * @param string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
      * @param string                                         $column
-     * @param string                                         $type
+     * @param string                                         $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithoutTags(Builder $query, $tags, string $column = 'slug', string $type = null): Builder
+    public function scopeWithoutTags(Builder $query, $tags, string $column = 'slug', string $group = null): Builder
     {
         $tags = static::isTagsStringBased($tags) ? $tags : static::hydrateTags($tags)->pluck($column);
 
-        return $query->whereDoesntHave('tags', function (Builder $query) use ($tags, $column, $type) {
-            $query->whereIn($column, (array) $tags)->when($type, function (Builder $query) use ($type) {
-                return $query->where('type', $type);
+        return $query->whereDoesntHave('tags', function (Builder $query) use ($tags, $column, $group) {
+            $query->whereIn($column, (array) $tags)->when($group, function (Builder $query) use ($group) {
+                return $query->where('group', $group);
             });
         });
     }

@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property string         $slug
  * @property array          $description
  * @property int            $order
- * @property string         $type
+ * @property string         $group
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string         $deleted_at
@@ -35,11 +35,11 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereSlug($value)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereOrder($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereGroup($value)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag withType($type = null)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag withGroup($group = null)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag ordered($direction = 'asc')
  * @mixin \Illuminate\Database\Eloquent\Model
  */
@@ -196,32 +196,32 @@ class Tag extends Model implements Sortable
     }
 
     /**
-     * Scope tags by given type.
+     * Scope tags by given group.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string|null                           $type
+     * @param string|null                           $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithType(Builder $query, string $type = null): Builder
+    public function scopeWithGroup(Builder $query, string $group = null): Builder
     {
-        return $type ? $query->where('type', $type) : $query;
+        return $group ? $query->where('group', $group) : $query;
     }
 
     /**
      * Find many tags by name or create if not exists.
      *
      * @param array       $tags
-     * @param string|null $type
+     * @param string|null $group
      * @param string|null $locale
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function findManyByNameOrCreate(array $tags, string $type = null, string $locale = null): Collection
+    public static function findManyByNameOrCreate(array $tags, string $group = null, string $locale = null): Collection
     {
         // Expects array of tag names
-        return collect($tags)->map(function ($tag) use ($type, $locale) {
-            return static::findByNameOrCreate($tag, $type, $locale);
+        return collect($tags)->map(function ($tag) use ($group, $locale) {
+            return static::findByNameOrCreate($tag, $group, $locale);
         });
     }
 
@@ -230,15 +230,15 @@ class Tag extends Model implements Sortable
      *
      * @param mixed       $name
      * @param string|null $locale
-     * @param string|null $type
+     * @param string|null $group
      *
      * @return static
      */
-    public static function findByNameOrCreate(string $name, string $locale = null, string $type = null): Tag
+    public static function findByNameOrCreate(string $name, string $locale = null, string $group = null): Tag
     {
         $locale = $locale ?? app()->getLocale();
 
-        return static::findByName($name, $locale) ?: static::createByName($name, $locale, $type);
+        return static::findByName($name, $locale) ?: static::createByName($name, $locale, $group);
     }
 
     /**
@@ -261,17 +261,17 @@ class Tag extends Model implements Sortable
      *
      * @param string      $name
      * @param string|null $locale
-     * @param string|null $type
+     * @param string|null $group
      *
      * @return static
      */
-    public static function createByName(string $name, string $locale = null, string $type = null): Tag
+    public static function createByName(string $name, string $locale = null, string $group = null): Tag
     {
         $locale = $locale ?? app()->getLocale();
 
         return static::create([
             'name' => [$locale => $name],
-            'type' => $type,
+            'group' => $group,
         ]);
     }
 }
