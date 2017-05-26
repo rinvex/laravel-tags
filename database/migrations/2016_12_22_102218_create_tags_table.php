@@ -22,7 +22,7 @@ class CreateTagsTable extends Migration
             $table->{$this->jsonable()}('name');
             $table->{$this->jsonable()}('description')->nullable();
             $table->unsignedTinyInteger('order')->default(0);
-            $table->string('type')->nullable();
+            $table->string('group')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
