@@ -80,7 +80,7 @@ class Tag extends Model implements Sortable
      *
      * @var array
      */
-    public $sortable = ['order_column_name' => 'order'];
+    public $sortable = ['order_column_name' => 'sort_order'];
 
     /**
      * The default rules that the model will validate against.
