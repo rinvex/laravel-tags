@@ -24,7 +24,7 @@ class CreateTaggablesTable extends Migration
 
             // Indexes
             $table->unique(['tag_id', 'taggable_id', 'taggable_type'], 'taggables_ids_type_unique');
-            $table->foreign('tag_id')->references('id')->on('tags')
+            $table->foreign('tag_id')->references('id')->on(config('rinvex.taggable.tables.tags'))
                   ->onDelete('cascade')->onUpdate('cascade');
         });
     }
