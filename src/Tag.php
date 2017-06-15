@@ -126,7 +126,7 @@ class Tag extends Model implements Sortable
             if (! $tag->slug) {
                 if ($tag->exists && $tag->getSlugOptions()->generateSlugsOnUpdate) {
                     $tag->generateSlugOnUpdate();
-                } else if (! $tag->exists && $tag->getSlugOptions()->generateSlugsOnCreate) {
+                } elseif (! $tag->exists && $tag->getSlugOptions()->generateSlugsOnCreate) {
                     $tag->generateSlugOnCreate();
                 }
             }
