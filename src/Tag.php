@@ -121,18 +121,16 @@ class Tag extends Model implements Sortable
     {
         parent::boot();
 
-        if (isset(static::$dispatcher)) {
-            // Early auto generate slugs before validation
-            static::$dispatcher->listen('eloquent.validating: '.static::class, function (self $model) {
-                if (! $model->slug) {
-                    if ($model->exists) {
-                        $model->generateSlugOnUpdate();
-                    } else {
-                        $model->generateSlugOnCreate();
-                    }
+        // Early auto generate slugs before validation
+        static::registerModelEvent('validating', function (self $tag) {
+            if (! $tag->slug) {
+                if ($tag->exists && $tag->getSlugOptions()->generateSlugsOnUpdate) {
+                    $tag->generateSlugOnUpdate();
+                } else if (! $tag->exists && $tag->getSlugOptions()->generateSlugsOnCreate) {
+                    $tag->generateSlugOnCreate();
                 }
-            });
-        }
+            }
+        });
     }
 
     /**
