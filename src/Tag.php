@@ -54,10 +54,12 @@ class Tag extends Model implements Sortable
     /**
      * {@inheritdoc}
      */
-    protected $guarded = [
-        'id',
-        'created_at',
-        'updated_at',
+    protected $fillable = [
+        'slug',
+        'name',
+        'description',
+        'sort_order',
+        'group',
     ];
 
     /**
