@@ -19,29 +19,28 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 /**
  * Rinvex\Taggable\Tag.
  *
- * @property int            $id
- * @property array          $name
- * @property string         $slug
- * @property array          $description
- * @property int            $order
- * @property string         $group
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string         $deleted_at
- * @property-read array     $category_list
+ * @property int                 $id
+ * @property string              $slug
+ * @property array               $name
+ * @property array               $description
+ * @property int                 $sort_order
+ * @property string|null         $group
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereSlug($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereOrder($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereGroup($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag withGroup($group = null)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag ordered($direction = 'asc')
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag ordered($direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag withGroup($group = null)
+ * @mixin \Eloquent
  */
 class Tag extends Model implements Sortable
 {
@@ -50,6 +49,13 @@ class Tag extends Model implements Sortable
     use HasTranslations;
     use ValidatingTrait;
     use CacheableEloquent;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $dates = [
+        'deleted_at',
+    ];
 
     /**
      * {@inheritdoc}
