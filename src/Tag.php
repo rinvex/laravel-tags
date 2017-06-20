@@ -116,9 +116,9 @@ class Tag extends Model implements Sortable
 
         $this->setTable(config('rinvex.taggable.tables.tags'));
         $this->setRules([
-            'name' => 'required|string|max:250',
+            'name' => 'required|string|max:150',
             'description' => 'nullable|string',
-            'slug' => 'required|alpha_dash|max:250|unique:'.config('rinvex.taggable.tables.tags').',slug',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.taggable.tables.tags').',slug',
         ]);
     }
 
