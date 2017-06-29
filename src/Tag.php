@@ -19,29 +19,28 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 /**
  * Rinvex\Taggable\Tag.
  *
- * @property int            $id
- * @property array          $name
- * @property string         $slug
- * @property array          $description
- * @property int            $order
- * @property string         $type
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string         $deleted_at
- * @property-read array     $category_list
+ * @property int                 $id
+ * @property string              $slug
+ * @property array               $name
+ * @property array               $description
+ * @property int                 $sort_order
+ * @property string|null         $group
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereSlug($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereOrder($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag withType($type = null)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Taggable\Tag ordered($direction = 'asc')
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag ordered($direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag withGroup($group = null)
+ * @mixin \Eloquent
  */
 class Tag extends Model implements Sortable
 {
@@ -54,10 +53,19 @@ class Tag extends Model implements Sortable
     /**
      * {@inheritdoc}
      */
-    protected $guarded = [
-        'id',
-        'created_at',
-        'updated_at',
+    protected $dates = [
+        'deleted_at',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $fillable = [
+        'slug',
+        'name',
+        'description',
+        'sort_order',
+        'group',
     ];
 
     /**
@@ -80,7 +88,7 @@ class Tag extends Model implements Sortable
      *
      * @var array
      */
-    public $sortable = ['order_column_name' => 'order'];
+    public $sortable = ['order_column_name' => 'sort_order'];
 
     /**
      * The default rules that the model will validate against.
@@ -90,7 +98,8 @@ class Tag extends Model implements Sortable
     protected $rules = [];
 
     /**
-     * Whether the model should throw a ValidationException if it fails validation.
+     * Whether the model should throw a
+     * ValidationException if it fails validation.
      *
      * @var bool
      */
@@ -107,31 +116,29 @@ class Tag extends Model implements Sortable
 
         $this->setTable(config('rinvex.taggable.tables.tags'));
         $this->setRules([
-            'name' => 'required|string',
+            'name' => 'required|string|max:150',
             'description' => 'nullable|string',
-            'slug' => 'required|alpha_dash|unique:'.config('rinvex.taggable.tables.tags').',slug',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.taggable.tables.tags').',slug',
         ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 
-        if (isset(static::$dispatcher)) {
-            // Early auto generate slugs before validation
-            static::$dispatcher->listen('eloquent.validating: '.static::class, function ($model, $event) {
-                if (! $model->slug) {
-                    if ($model->exists) {
-                        $model->generateSlugOnCreate();
-                    } else {
-                        $model->generateSlugOnUpdate();
-                    }
+        // Early auto generate slugs before validation
+        static::registerModelEvent('validating', function (self $tag) {
+            if (! $tag->slug) {
+                if ($tag->exists && $tag->getSlugOptions()->generateSlugsOnUpdate) {
+                    $tag->generateSlugOnUpdate();
+                } elseif (! $tag->exists && $tag->getSlugOptions()->generateSlugsOnCreate) {
+                    $tag->generateSlugOnCreate();
                 }
-            });
-        }
+            }
+        });
     }
 
     /**
@@ -196,32 +203,32 @@ class Tag extends Model implements Sortable
     }
 
     /**
-     * Scope tags by given type.
+     * Scope tags by given group.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string|null                           $type
+     * @param string|null                           $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithType(Builder $query, string $type = null): Builder
+    public function scopeWithGroup(Builder $query, string $group = null): Builder
     {
-        return $type ? $query->where('type', $type) : $query;
+        return $group ? $query->where('group', $group) : $query;
     }
 
     /**
      * Find many tags by name or create if not exists.
      *
      * @param array       $tags
-     * @param string|null $type
+     * @param string|null $group
      * @param string|null $locale
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function findManyByNameOrCreate(array $tags, string $type = null, string $locale = null): Collection
+    public static function findManyByNameOrCreate(array $tags, string $group = null, string $locale = null): Collection
     {
         // Expects array of tag names
-        return collect($tags)->map(function ($tag) use ($type, $locale) {
-            return static::findByNameOrCreate($tag, $type, $locale);
+        return collect($tags)->map(function ($tag) use ($group, $locale) {
+            return static::findByNameOrCreate($tag, $group, $locale);
         });
     }
 
@@ -230,15 +237,15 @@ class Tag extends Model implements Sortable
      *
      * @param mixed       $name
      * @param string|null $locale
-     * @param string|null $type
+     * @param string|null $group
      *
      * @return static
      */
-    public static function findByNameOrCreate(string $name, string $locale = null, string $type = null): Tag
+    public static function findByNameOrCreate(string $name, string $locale = null, string $group = null): Tag
     {
         $locale = $locale ?? app()->getLocale();
 
-        return static::findByName($name, $locale) ?: static::createByName($name, $locale, $type);
+        return static::findByName($name, $locale) ?: static::createByName($name, $locale, $group);
     }
 
     /**
@@ -261,17 +268,17 @@ class Tag extends Model implements Sortable
      *
      * @param string      $name
      * @param string|null $locale
-     * @param string|null $type
+     * @param string|null $group
      *
      * @return static
      */
-    public static function createByName(string $name, string $locale = null, string $type = null): Tag
+    public static function createByName(string $name, string $locale = null, string $group = null): Tag
     {
         $locale = $locale ?? app()->getLocale();
 
         return static::create([
             'name' => [$locale => $name],
-            'type' => $type,
+            'group' => $group,
         ]);
     }
 }
