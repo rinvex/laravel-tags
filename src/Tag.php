@@ -53,13 +53,6 @@ class Tag extends Model implements Sortable
     /**
      * {@inheritdoc}
      */
-    protected $dates = [
-        'deleted_at',
-    ];
-
-    /**
-     * {@inheritdoc}
-     */
     protected $fillable = [
         'slug',
         'name',
@@ -71,7 +64,22 @@ class Tag extends Model implements Sortable
     /**
      * {@inheritdoc}
      */
-    protected $observables = ['validating', 'validated'];
+    protected $casts = [
+        'slug' => 'string',
+        'name' => 'string',
+        'description' => 'string',
+        'sort_order' => 'integer',
+        'group' => 'string',
+        'deleted_at' => 'datetime',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $observables = [
+        'validating',
+        'validated',
+    ];
 
     /**
      * The attributes that are translatable.
