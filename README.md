@@ -26,7 +26,7 @@
 
 3. Add the following service provider to the `'providers'` array inside `app/config/app.php`:
     ```php
-    Rinvex\Taggable\TaggableServiceProvider::class
+    Rinvex\Taggable\TaggableServiceProvider::class,
     ```
 
 4. **Optionally** you can publish migration and config files by running the following commands:
@@ -46,9 +46,7 @@
 ### Create Your Model
 
 Simply create a new eloquent model, and use `Taggable` trait:
-``` php
-<?php
-
+```php
 namespace App;
 
 use Rinvex\Taggable\Tag;
