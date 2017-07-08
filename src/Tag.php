@@ -96,7 +96,9 @@ class Tag extends Model implements Sortable
      *
      * @var array
      */
-    public $sortable = ['order_column_name' => 'sort_order'];
+    public $sortable = [
+        'order_column_name' => 'sort_order',
+    ];
 
     /**
      * The default rules that the model will validate against.
@@ -124,9 +126,11 @@ class Tag extends Model implements Sortable
 
         $this->setTable(config('rinvex.taggable.tables.tags'));
         $this->setRules([
-            'name' => 'required|string|max:150',
-            'description' => 'nullable|string',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.taggable.tables.tags').',slug',
+            'name' => 'required|string|max:150',
+            'description' => 'nullable|string|max:10000',
+            'sort_order' => 'integer|max:10000000',
+            'group' => 'nullable|string|max:150',
         ]);
     }
 
