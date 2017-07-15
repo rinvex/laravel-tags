@@ -29,13 +29,13 @@
     Rinvex\Taggable\TaggableServiceProvider::class,
     ```
 
-4. **Optionally** you can publish migration and config files by running the following commands:
+4. **Optionally** you can publish migrations and config files by running the following commands:
     ```shell
     // Publish migrations
-    php artisan vendor:publish --tag="migrations" --provider="Rinvex\Taggable\TaggableServiceProvider"
+    php artisan vendor:publish --tag="rinvex-taggable-migrations"
 
     // Publish config
-    php artisan vendor:publish --tag="config" --provider="Rinvex\Taggable\TaggableServiceProvider"
+    php artisan vendor:publish --tag="rinvex-taggable-config"
     ```
 
 5. Done!
