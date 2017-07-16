@@ -47,7 +47,7 @@
 
 Simply create a new eloquent model, and use `Taggable` trait:
 ```php
-namespace App;
+namespace App\Models;
 
 use Rinvex\Taggable\Tag;
 use Rinvex\Taggable\Taggable;
@@ -98,7 +98,7 @@ Tag::findManyByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
 The API is intutive and very straightfarwad, so let's give it a quick look:
 ```php
 // Instantiate your model
-$post = new \App\Post();
+$post = new \App\Models\Post();
 
 // Attach given tags to the model
 $post->tag(['my-new-tag', 'my-brand-new-tag']);
@@ -158,7 +158,7 @@ It's very easy to get all models attached to certain tag as follows:
 
 ```php
 $tag = Tag::find(1);
-$tag->entries(\App\Post::class);
+$tag->entries(\App\Models\Post::class);
 ```
 
 #### Fired Events
@@ -178,16 +178,16 @@ Yes, **Rinvex Taggable** shipped with few awesome query scopes for your convenie
 
 ```php
 // Get models with all given tags
-Post::withAllTags(['my-new-tag', 'my-brand-new-tag'])->get();
+$postsWithAllTags = \App\Models\Post::withAllTags(['my-new-tag', 'my-brand-new-tag'])->get();
 
 // Get models with any given tags
-Post::withAnyTags(['my-new-tag', 'my-brand-new-tag'])->get();
+$postsWithAnyTags = \App\Models\Post::withAnyTags(['my-new-tag', 'my-brand-new-tag'])->get();
 
 // Get models without tags
-Post::withoutTags(['my-new-tag', 'my-brand-new-tag'])->get();
+$postsWithoutTags = \App\Models\Post::withoutTags(['my-new-tag', 'my-brand-new-tag'])->get();
 
 // Get models without any tags
-Post::withoutAnyTags()->get();
+$postsWithoutAnyTags = \App\Models\Post::withoutAnyTags()->get();
 ```
 
 #### Tag Translations
