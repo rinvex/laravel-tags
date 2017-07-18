@@ -99,7 +99,7 @@ trait Taggable
     }
 
     /**
-     * Boot the taggable trait for a model.
+     * Boot the taggable trait for the model.
      *
      * @return void
      */
