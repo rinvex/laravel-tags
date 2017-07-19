@@ -119,32 +119,6 @@ trait Taggable
     }
 
     /**
-     * Get the tag list.
-     *
-     * @param string $keyColumn
-     *
-     * @return array
-     */
-    public function tagList(string $keyColumn = 'slug'): array
-    {
-        return $this->tags()->pluck('name', $keyColumn)->toArray();
-    }
-
-    /**
-     * Filter tags with group.
-     *
-     * @param string|null $group
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function tagsWithGroup(string $group = null): Collection
-    {
-        return $this->tags->filter(function (Tag $tag) use ($group) {
-            return $tag->group === $group;
-        });
-    }
-
-    /**
      * Scope query with all the given tags.
      *
      * @param \Illuminate\Database\Eloquent\Builder              $builder
