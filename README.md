@@ -45,7 +45,7 @@
 
 ### Create Your Model
 
-Simply create a new eloquent model, and use `Taggable` trait:
+Simply create a new eloquent model, and use `\Rinvex\Taggable\Taggable` trait:
 ```php
 namespace App\Models;
 
@@ -118,8 +118,8 @@ $post->retag(null);
 // Get attached tags collection
 $post->tags;
 
-// Get attached tags array with slugs and names
-$post->tagList();
+// Get attached tags query builder
+$post->tags();
 
 // Check model if has any given tags
 $post->hasTag(['my-new-tag', 'my-brand-new-tag']);
