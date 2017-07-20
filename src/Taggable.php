@@ -77,7 +77,8 @@ trait Taggable
      */
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(static::getTagClassName(), 'taggable', config('rinvex.taggable.tables.taggables'), 'taggable_id', 'tag_id')->orderBy('sort_order')->withTimestamps();
+        return $this->morphToMany(static::getTagClassName(), 'taggable', config('rinvex.taggable.tables.taggables'), 'taggable_id', 'tag_id')
+                    ->orderBy('sort_order')->withTimestamps();
     }
 
     /**
