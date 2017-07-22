@@ -129,7 +129,7 @@ class Tag extends Model implements Sortable
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.taggable.tables.tags').',slug',
             'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
-            'sort_order' => 'sometimes|required|integer|max:10000000',
+            'sort_order' => 'sometimes|integer|max:10000000',
             'group' => 'nullable|string|max:150',
         ]);
     }
