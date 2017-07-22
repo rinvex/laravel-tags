@@ -46,6 +46,7 @@
 ### Create Your Model
 
 Simply create a new eloquent model, and use `\Rinvex\Taggable\Taggable` trait:
+
 ```php
 namespace App\Models;
 
@@ -57,11 +58,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Post extends Model
 {
     use Taggable;
-
-    public function tags(): MorphToMany
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
-    }
 }
 ```
 
@@ -96,6 +92,7 @@ Tag::findManyByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
 ### Manage Your Taggable Model
 
 The API is intutive and very straightfarwad, so let's give it a quick look:
+
 ```php
 // Instantiate your model
 $post = new \App\Models\Post();
