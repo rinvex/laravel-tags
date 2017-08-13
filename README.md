@@ -21,24 +21,10 @@
 
 2. Execute migrations via the following command:
     ```
-    php artisan migrate --path="vendor/rinvex/taggable/database/migrations"
+    php artisan rinvex:migrate:taggable
     ```
 
-3. Add the following service provider to the `'providers'` array inside `app/config/app.php`:
-    ```php
-    Rinvex\Taggable\TaggableServiceProvider::class,
-    ```
-
-4. **Optionally** you can publish migrations and config files by running the following commands:
-    ```shell
-    // Publish migrations
-    php artisan vendor:publish --tag="rinvex-taggable-migrations"
-
-    // Publish config
-    php artisan vendor:publish --tag="rinvex-taggable-config"
-    ```
-
-5. Done!
+3. Done!
 
 
 ## Usage
