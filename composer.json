@@ -77,7 +77,7 @@
         },
         "laravel": {
             "providers": [
-                "Rinvex\\Taggable\\TaggableServiceProvider"
+                "Rinvex\\Taggable\\Providers\\TaggableServiceProvider"
             ]
         }
     },

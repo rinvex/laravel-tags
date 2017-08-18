@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Taggable;
+namespace Rinvex\Taggable\Traits;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;

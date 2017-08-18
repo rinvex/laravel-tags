@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Taggable;
+namespace Rinvex\Taggable\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Rinvex\Taggable\Console\Commands\MigrateCommand;

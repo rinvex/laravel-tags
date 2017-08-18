@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Taggable;
+namespace Rinvex\Taggable\Models;
 
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;

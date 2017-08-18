@@ -31,13 +31,13 @@
 
 ### Create Your Model
 
-Simply create a new eloquent model, and use `\Rinvex\Taggable\Taggable` trait:
+Simply create a new eloquent model, and use `\Rinvex\Taggable\Traits\Taggable` trait:
 
 ```php
 namespace App\Models;
 
 use Rinvex\Taggable\Tag;
-use Rinvex\Taggable\Taggable;
+use Rinvex\Taggable\Traits\Taggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
