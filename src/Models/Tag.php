@@ -66,8 +66,6 @@ class Tag extends Model implements Sortable
      */
     protected $casts = [
         'slug' => 'string',
-        'name' => 'string',
-        'description' => 'string',
         'sort_order' => 'integer',
         'group' => 'string',
         'deleted_at' => 'datetime',
