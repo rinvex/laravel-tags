@@ -51,16 +51,6 @@ trait Taggable
     abstract public function morphToMany($related, $name, $table = null, $foreignKey = null, $otherKey = null, $inverse = false);
 
     /**
-     * Get tag class name.
-     *
-     * @return string
-     */
-    public static function getTagClassName(): string
-    {
-        return Tag::class;
-    }
-
-    /**
      * Get tags delimiter.
      *
      * @return string
@@ -77,7 +67,7 @@ trait Taggable
      */
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(static::getTagClassName(), 'taggable', config('rinvex.taggable.tables.taggables'), 'taggable_id', 'tag_id')
+        return $this->morphToMany(config('rinvex.taggable.models.tag'), 'taggable', config('rinvex.taggable.tables.taggables'), 'taggable_id', 'tag_id')
                     ->orderBy('sort_order')->withTimestamps();
     }
 
@@ -408,9 +398,9 @@ trait Taggable
     {
         $tags = static::prepareTags($tags);
         $isTagsStringBased = static::isTagsStringBased($tags);
+        $className = config('rinvex.taggable.models.tag');
         $isTagsIntBased = static::isTagsIntBased($tags);
         $field = $isTagsStringBased ? 'slug' : 'id';
-        $className = static::getTagClassName();
 
         if ($isTagsStringBased && $createMissing) {
             return $className::findManyByNameOrCreate($tags);
