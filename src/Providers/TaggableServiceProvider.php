@@ -24,7 +24,7 @@ class TaggableServiceProvider extends ServiceProvider
     public function register()
     {
         // Merge config
-        $this->mergeConfigFrom(realpath(__DIR__.'/../config/config.php'), 'rinvex.taggable');
+        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.taggable');
 
         // Register artisan commands
         foreach ($this->commands as $key => $value) {
