@@ -17,7 +17,7 @@ use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * Rinvex\Taggable\Tag.
+ * Rinvex\Taggable\Models\Tag.
  *
  * @property int                 $id
  * @property string              $slug
@@ -29,17 +29,17 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag ordered($direction = 'asc')
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereGroup($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereSortOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Tag withGroup($group = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag ordered($direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag withGroup($group = null)
  * @mixin \Eloquent
  */
 class Tag extends Model implements Sortable

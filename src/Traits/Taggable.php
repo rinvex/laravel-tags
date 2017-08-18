@@ -74,7 +74,7 @@ trait Taggable
     /**
      * Attach the given tag(s) to the model.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
      * @return void
      */
@@ -113,7 +113,7 @@ trait Taggable
      * Scope query with all the given tags.
      *
      * @param \Illuminate\Database\Eloquent\Builder              $builder
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      * @param string                                             $column
      * @param string                                             $group
      *
@@ -138,7 +138,7 @@ trait Taggable
      * Scope query with any of the given tags.
      *
      * @param \Illuminate\Database\Eloquent\Builder              $builder
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      * @param string                                             $column
      * @param string                                             $group
      *
@@ -159,7 +159,7 @@ trait Taggable
      * Scope query with any of the given tags.
      *
      * @param \Illuminate\Database\Eloquent\Builder              $builder
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      * @param string                                             $column
      * @param string                                             $group
      *
@@ -174,7 +174,7 @@ trait Taggable
      * Scope query without any of the given tags.
      *
      * @param \Illuminate\Database\Eloquent\Builder          $builder
-     * @param string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      * @param string                                         $column
      * @param string                                         $group
      *
@@ -206,7 +206,7 @@ trait Taggable
     /**
      * Attach the given tag(s) to the model.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
      * @return $this
      */
@@ -220,7 +220,7 @@ trait Taggable
     /**
      * Sync the given tag(s) to the model.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
      * @return $this
      */
@@ -234,7 +234,7 @@ trait Taggable
     /**
      * Detach the given tag(s) from the model.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
      * @return $this
      */
@@ -248,7 +248,7 @@ trait Taggable
     /**
      * Determine if the model has any the given tags.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
      * @return bool
      */
@@ -290,7 +290,7 @@ trait Taggable
     /**
      * Determine if the model has any the given tags.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
      * @return bool
      */
@@ -302,7 +302,7 @@ trait Taggable
     /**
      * Determine if the model has all of the given tags.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
      * @return bool
      */
@@ -346,7 +346,7 @@ trait Taggable
     /**
      * Prepare tag list.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
      * @return mixed
      */
@@ -363,7 +363,7 @@ trait Taggable
     /**
      * Set the given tag(s) to the model.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag|null $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag|null $tags
      * @param string                                                  $action
      *
      * @return void
@@ -389,7 +389,7 @@ trait Taggable
     /**
      * Hydrate tags.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      * @param bool                                               $createMissing
      *
      * @return \Illuminate\Support\Collection
@@ -412,7 +412,7 @@ trait Taggable
     /**
      * Determine if the given tag(s) are string based.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
      * @return bool
      */
@@ -424,7 +424,7 @@ trait Taggable
     /**
      * Determine if the given tag(s) are integer based.
      *
-     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Tag $tags
+     * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
      * @return bool
      */
