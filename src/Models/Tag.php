@@ -188,18 +188,6 @@ class Tag extends Model implements Sortable
     }
 
     /**
-     * Enforce clean slugs.
-     *
-     * @param string $value
-     *
-     * @return void
-     */
-    public function setSlugAttribute($value)
-    {
-        $this->attributes['slug'] = str_slug($value, '_');
-    }
-
-    /**
      * Enforce clean groups.
      *
      * @param string $value
@@ -219,6 +207,7 @@ class Tag extends Model implements Sortable
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
+                          ->usingSeparator('_')
                           ->doNotGenerateSlugsOnUpdate()
                           ->generateSlugsFrom('name')
                           ->saveSlugsTo('slug');
