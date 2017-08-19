@@ -112,10 +112,10 @@ trait Taggable
     /**
      * Scope query with all the given tags.
      *
-     * @param \Illuminate\Database\Eloquent\Builder              $builder
+     * @param \Illuminate\Database\Eloquent\Builder                     $builder
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
-     * @param string                                             $column
-     * @param string                                             $group
+     * @param string                                                    $column
+     * @param string                                                    $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -137,10 +137,10 @@ trait Taggable
     /**
      * Scope query with any of the given tags.
      *
-     * @param \Illuminate\Database\Eloquent\Builder              $builder
+     * @param \Illuminate\Database\Eloquent\Builder                     $builder
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
-     * @param string                                             $column
-     * @param string                                             $group
+     * @param string                                                    $column
+     * @param string                                                    $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -158,10 +158,10 @@ trait Taggable
     /**
      * Scope query with any of the given tags.
      *
-     * @param \Illuminate\Database\Eloquent\Builder              $builder
+     * @param \Illuminate\Database\Eloquent\Builder                     $builder
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
-     * @param string                                             $column
-     * @param string                                             $group
+     * @param string                                                    $column
+     * @param string                                                    $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -173,10 +173,10 @@ trait Taggable
     /**
      * Scope query without any of the given tags.
      *
-     * @param \Illuminate\Database\Eloquent\Builder          $builder
+     * @param \Illuminate\Database\Eloquent\Builder                 $builder
      * @param string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
-     * @param string                                         $column
-     * @param string                                         $group
+     * @param string                                                $column
+     * @param string                                                $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -364,7 +364,7 @@ trait Taggable
      * Set the given tag(s) to the model.
      *
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag|null $tags
-     * @param string                                                  $action
+     * @param string                                                         $action
      *
      * @return void
      */
@@ -390,7 +390,7 @@ trait Taggable
      * Hydrate tags.
      *
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
-     * @param bool                                               $createMissing
+     * @param bool                                                      $createMissing
      *
      * @return \Illuminate\Support\Collection
      */
