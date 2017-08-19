@@ -26,6 +26,11 @@ class TaggableServiceProvider extends ServiceProvider
         // Merge config
         $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.taggable');
 
+        // Register eloquent models
+        $this->app->singleton('rinvex.taggable.tag', function ($app) {
+            return new $app['config']['rinvex.taggable.models.tag']();
+        });
+
         // Register artisan commands
         foreach ($this->commands as $key => $value) {
             $this->app->singleton($value, function ($app) use ($key) {

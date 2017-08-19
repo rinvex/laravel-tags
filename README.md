@@ -36,7 +36,6 @@ Simply create a new eloquent model, and use `\Rinvex\Taggable\Traits\Taggable` t
 ```php
 namespace App\Models;
 
-use Rinvex\Taggable\Tag;
 use Rinvex\Taggable\Traits\Taggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -50,25 +49,23 @@ class Post extends Model
 ### Manage Your Tags
 
 ```php
-use Rinvex\Taggable\Tag;
-
 // Create a new tag by name
-Tag::createByName('My New Tag');
+app('rinvex.taggable.tag')->createByName('My New Tag');
 
 // Create a new tag by translation and type
-Tag::createByName('وسم جديد', 'ar', 'blog');
+app('rinvex.taggable.tag')->createByName('The very new tag', 'en', 'blog');
 
 // Get existing tag by name
-Tag::findByName('My New Tag');
+app('rinvex.taggable.tag')->findByName('My New Tag');
 
 // Get existing tag by translation
-Tag::findByName('وسم جديد', 'ar');
+app('rinvex.taggable.tag')->findByName('وسم جديد', 'ar');
 
 // Find tag by name or create if not exists
-Tag::findByNameOrCreate('My Brand New Tag');
+app('rinvex.taggable.tag')->findByNameOrCreate('My Brand New Tag');
 
 // Find many tags by name or create if not exists
-Tag::findManyByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
+app('rinvex.taggable.tag')->findManyByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
 ```
 
 > **Notes:** since **Rinvex Taggable** extends and utilizes other awesome packages, checkout the following documentations for further details:
@@ -118,7 +115,7 @@ $post->hasAllTags(['my-new-tag', 'my-brand-new-tag']);
 **Rinvex Taggable** auto generates slugs and auto detect and insert default translation for you, but you still can pass it explicitly through normal eloquent `create` method, as follows:
 
 ```php
-Tag::create(['name' => ['en' => 'My New Tag'], 'slug' => 'custom-tag-slug']);
+app('rinvex.taggable.tag')->create(['name' => ['en' => 'My New Tag'], 'slug' => 'custom-tag-slug']);
 ```
 
 #### Smart Parameter Detection
@@ -130,8 +127,8 @@ $post->hasTag(1);
 $post->hasTag([1,2,4]);
 $post->hasTag('my-new-tag');
 $post->hasTag(['my-new-tag', 'my-brand-new-tag']);
-$post->hasTag(Tag::where('slug', 'my-new-tag')->first());
-$post->hasTag(Tag::whereIn('id', [5,6,7)->get());
+$post->hasTag(app('rinvex.taggable.tag')->where('slug', 'my-new-tag')->first());
+$post->hasTag(app('rinvex.taggable.tag')->whereIn('id', [5,6,7)->get());
 ```
 **Rinvex Taggable** can understand any of the above parameter syntax and interpret it correctly, same for other methods in this package.
 
@@ -140,7 +137,7 @@ $post->hasTag(Tag::whereIn('id', [5,6,7)->get());
 It's very easy to get all models attached to certain tag as follows:
 
 ```php
-$tag = Tag::find(1);
+$tag = app('rinvex.taggable.tag')->find(1);
 $tag->entries(\App\Models\Post::class);
 ```
 
@@ -178,7 +175,7 @@ $postsWithoutAnyTags = \App\Models\Post::withoutAnyTags()->get();
 Manage tag translations with ease as follows:
 
 ```php
-$tag = Tag::find(1);
+$tag = app('rinvex.taggable.tag')->find(1);
 
 // Set tag translation
 $tag->setTranslation('name', 'en', 'Name in English');
