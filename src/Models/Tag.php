@@ -19,15 +19,15 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 /**
  * Rinvex\Taggable\Models\Tag.
  *
- * @property int                 $id
- * @property string              $slug
- * @property array               $name
- * @property array               $description
- * @property int                 $sort_order
- * @property string|null         $group
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property int            $id
+ * @property string         $slug
+ * @property array          $name
+ * @property array          $description
+ * @property int            $sort_order
+ * @property string         $group
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag ordered($direction = 'asc')
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereCreatedAt($value)
