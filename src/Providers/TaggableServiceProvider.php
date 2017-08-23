@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rinvex\Taggable\Providers;
 
-use Rinvex\Taggable\Models\Tag;
 use Illuminate\Support\ServiceProvider;
+use Rinvex\Taggable\Contracts\TagContract;
 use Rinvex\Taggable\Console\Commands\MigrateCommand;
 
 class TaggableServiceProvider extends ServiceProvider
@@ -31,7 +31,7 @@ class TaggableServiceProvider extends ServiceProvider
         $this->app->singleton('rinvex.taggable.tag', function ($app) {
             return new $app['config']['rinvex.taggable.models.tag']();
         });
-        $this->app->alias('rinvex.taggable.tag', Tag::class);
+        $this->app->alias('rinvex.taggable.tag', TagContract::class);
 
         // Register console commands
         ! $this->app->runningInConsole() || $this->registerCommands();

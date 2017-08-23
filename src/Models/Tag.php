@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
+use Rinvex\Taggable\Contracts\TagContract;
 use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -42,7 +43,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag withGroup($group = null)
  * @mixin \Eloquent
  */
-class Tag extends Model implements Sortable
+class Tag extends Model implements TagContract, Sortable
 {
     use HasSlug;
     use SortableTrait;
