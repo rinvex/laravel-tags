@@ -141,13 +141,11 @@ class Tag extends Model implements TagContract, Sortable
         parent::boot();
 
         // Early auto generate slugs before validation
-        static::registerModelEvent('validating', function (self $tag) {
-            if (! $tag->slug) {
-                if ($tag->exists && $tag->getSlugOptions()->generateSlugsOnUpdate) {
-                    $tag->generateSlugOnUpdate();
-                } elseif (! $tag->exists && $tag->getSlugOptions()->generateSlugsOnCreate) {
-                    $tag->generateSlugOnCreate();
-                }
+        static::validating(function (self $tag) {
+            if ($tag->exists && $tag->getSlugOptions()->generateSlugsOnUpdate) {
+                $tag->generateSlugOnUpdate();
+            } elseif (! $tag->exists && $tag->getSlugOptions()->generateSlugsOnCreate) {
+                $tag->generateSlugOnCreate();
             }
         });
     }
