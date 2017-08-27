@@ -128,7 +128,7 @@ $post->hasTag([1,2,4]);
 $post->hasTag('my-new-tag');
 $post->hasTag(['my-new-tag', 'my-brand-new-tag']);
 $post->hasTag(app('rinvex.taggable.tag')->where('slug', 'my-new-tag')->first());
-$post->hasTag(app('rinvex.taggable.tag')->whereIn('id', [5,6,7)->get());
+$post->hasTag(app('rinvex.taggable.tag')->whereIn('id', [5,6,7])->get());
 ```
 **Rinvex Taggable** can understand any of the above parameter syntax and interpret it correctly, same for other methods in this package.
 
