@@ -195,7 +195,7 @@ class Tag extends Model implements TagContract, Sortable
      */
     public function setGroupAttribute($value)
     {
-        $this->attributes['group'] = str_slug($value, '_');
+        $this->attributes['group'] = str_slug($value);
     }
 
     /**
@@ -206,7 +206,6 @@ class Tag extends Model implements TagContract, Sortable
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-                          ->usingSeparator('_')
                           ->doNotGenerateSlugsOnUpdate()
                           ->generateSlugsFrom('name')
                           ->saveSlugsTo('slug');
