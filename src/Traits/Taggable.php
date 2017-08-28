@@ -213,7 +213,7 @@ trait Taggable
      *
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
-     * @return $this
+     * @return static
      */
     public function tag($tags)
     {
@@ -227,7 +227,7 @@ trait Taggable
      *
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
-     * @return $this
+     * @return static
      */
     public function retag($tags)
     {
@@ -241,7 +241,7 @@ trait Taggable
      *
      * @param int|string|array|\ArrayAccess|\Rinvex\Taggable\Models\Tag $tags
      *
-     * @return $this
+     * @return static
      */
     public function untag($tags)
     {
