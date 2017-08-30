@@ -226,7 +226,7 @@ class Tag extends Model implements TagContract, Sortable
      * @param string|null $group
      * @param string|null $locale
      *
-     * @return static|null
+     * @return \Illuminate\Support\Collection
      */
     public static function findByName($tags, string $group = null, string $locale = null): Collection
     {

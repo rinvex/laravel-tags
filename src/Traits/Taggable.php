@@ -278,7 +278,7 @@ trait Taggable
      * @param mixed $tags
      * @param bool  $detaching
      *
-     * @return static
+     * @return $this
      */
     public function syncTags($tags, bool $detaching = true)
     {
@@ -303,7 +303,7 @@ trait Taggable
      *
      * @param mixed $tags
      *
-     * @return static
+     * @return $this
      */
     public function attachTags($tags)
     {
@@ -315,7 +315,7 @@ trait Taggable
      *
      * @param mixed $tags
      *
-     * @return static
+     * @return $this
      */
     public function detachTags($tags = null)
     {
