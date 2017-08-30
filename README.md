@@ -48,29 +48,46 @@ class Post extends Model
 
 ### Manage Your Tags
 
+Your tags are just normal [eloquent](https://laravel.com/docs/master/eloquent) models, so you can deal with it like so. There's few more methods added to tag models for your convenience, let's take a look:
+
 ```php
-// Create a new tag by name
+// Create new tag by name
 app('rinvex.taggable.tag')->createByName('My New Tag');
 
-// Create a new tag by translation and type
-app('rinvex.taggable.tag')->createByName('The very new tag', 'en', 'blog');
+// Create new tag by name, group, and translation
+app('rinvex.taggable.tag')->createByName('The very new tag', 'blog', 'en');
 
-// Get existing tag by name
+// Find first tag by name
+app('rinvex.taggable.tag')->firstByName('My New Tag');
+
+// Find first tag by name, group, and translation
+app('rinvex.taggable.tag')->firstByName('وسم جديد', 'board', 'ar');
+
+// Find tag(s) by name
 app('rinvex.taggable.tag')->findByName('My New Tag');
 
-// Get existing tag by translation
-app('rinvex.taggable.tag')->findByName('وسم جديد', 'ar');
+// Find tag(s) by name, group, and translation
+app('rinvex.taggable.tag')->findByName('وسم جديد', 'board', 'ar');
 
-// Find tag by name or create if not exists
+// Find multiple tags by names array
+app('rinvex.taggable.tag')->findByName(['Tag One', 'Tag Two']);
+
+// Find multiple tags by delimited names (tag delimiter is customizable)
+app('rinvex.taggable.tag')->findByName('First Tag, Second Tag, Third Tag');
+
+// Find tag(s) by name or create if not exists
 app('rinvex.taggable.tag')->findByNameOrCreate('My Brand New Tag');
 
-// Find many tags by name or create if not exists
-app('rinvex.taggable.tag')->findManyByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
+// Find tag(s) by name, group, and translation or create if not exists
+app('rinvex.taggable.tag')->findByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
+
+// Find tag(s) by group using query scopes
+app('rinvex.taggable.tag')->withGroup('blog')->get();
 ```
 
-> **Notes:** since **Rinvex Taggable** extends and utilizes other awesome packages, checkout the following documentations for further details:
-> - Automatic Slugging using [`spatie/laravel-sluggable`](https://github.com/spatie/laravel-sluggable)
-> - Translatable out of the box using [`spatie/laravel-translatable`](https://github.com/spatie/laravel-translatable)
+> **Notes:** 
+> - **Rinvex Taggable** extends and utilizes other awesome packages, to be translatable out of the box using [`spatie/laravel-translatable`](https://github.com/spatie/laravel-translatable), and for automatic Slugging it uses [`spatie/laravel-sluggable`](https://github.com/spatie/laravel-sluggable) packages. Them them out.
+> - Both `findByName()` and `findByNameOrCreate()` methods accepts either one or more tags as their first argument, and always return a collection.
 
 ### Manage Your Taggable Model
 
@@ -80,95 +97,151 @@ The API is intutive and very straightfarwad, so let's give it a quick look:
 // Instantiate your model
 $post = new \App\Models\Post();
 
-// Attach given tags to the model
-$post->tag(['my-new-tag', 'my-brand-new-tag']);
-
-// Detach given tags from the model
-$post->untag(['my-new-tag']);
-
-// Sync given tags with the model (remove attached tags and reattach given ones)
-$post->retag(['my-new-tag', 'my-brand-new-tag']);
-
-// Remove all attached tags
-$post->tags()->detach();
-
-// Alternatively you can remove all attached tags as follows
-$post->retag(null);
-
 // Get attached tags collection
 $post->tags;
 
 // Get attached tags query builder
 $post->tags();
-
-// Check model if has any given tags
-$post->hasTag(['my-new-tag', 'my-brand-new-tag']);
-
-// Check model if has any given tags
-$post->hasAllTags(['my-new-tag', 'my-brand-new-tag']);
 ```
+
+You can attach tags in various ways:
+
+```php
+// Single tag id
+$post->attachTags(1);
+
+// Multiple tag IDs array
+$post->attachTags([1, 2, 5]);
+
+// Multiple tag IDs collection
+$post->attachTags(collect([1, 2, 5]));
+
+// Single tag model instance
+$tagInstance = app('rinvex.taggable.tag')->first();
+$post->attachTags($tagInstance);
+
+// Single tag name (created if not exists)
+$post->attachTags('A very new tag');
+
+// Multiple delimited tag names (use existing, create not existing)
+$post->attachTags('First Tag, Second Tag, Third Tag');
+
+// Multiple tag names array (use existing, create not existing)
+$post->attachTags(['First Tag', 'Second Tag']);
+
+// Multiple tag names collection (use existing, create not existing)
+$post->attachTags(collect(['First Tag', 'Second Tag']));
+
+// Multiple tag model instances
+$tagInstances = app('rinvex.taggable.tag')->whereIn('id', [1, 2, 5])->get();
+$post->attachTags($tagInstances);
+```
+
+> **Notes:** 
+> - The `attachTags()` method attach the given tags to the model without touching the currently attached tags, while there's the `syncTags()` method that can detach any records that's not in the given items, this method takes a second optional boolean parameter that's set detaching flag to `true` or `false`.
+> - To detach model tags you can use the `detachTags()` method, which uses **exactly** the same signature as the `attachTags()` method, with additional feature of detaching all currently attached tags by passing null or nothing to that method as follows: `$post->detachTags();`.
+> - You may have multiple tags with the same name and the same locale, in such case the first record found is used by default. This is intended by design to ensure a consistent behavior across all functionality whether you are attaching, detaching, or scoping model tags.
+
+And as you may have expected, you can check if tags attached:
+
+```php
+// Single tag id
+$post->hasAnyTags(1);
+
+// Multiple tag IDs array
+$post->hasAnyTags([1, 2, 5]);
+
+// Multiple tag IDs collection
+$post->hasAnyTags(collect([1, 2, 5]));
+
+// Single tag model instance
+$tagInstance = app('rinvex.taggable.tag')->first();
+$post->hasAnyTags($tagInstance);
+
+// Single tag name
+$post->hasAnyTags('A very new tag');
+
+// Multiple delimited tag names
+$post->hasAnyTags('First Tag, Second Tag, Third Tag');
+
+// Multiple tag names array
+$post->hasAnyTags(['First Tag', 'Second Tag']);
+
+// Multiple tag names collection
+$post->hasAnyTags(collect(['First Tag', 'Second Tag']));
+
+// Multiple tag model instances
+$tagInstances = app('rinvex.taggable.tag')->whereIn('id', [1, 2, 5])->get();
+$post->hasAnyTags($tagInstances);
+```
+
+> **Notes:** 
+> - The `hasAnyTags()` method check if **ANY** of the given tags are attached to the model. It returns boolean `true` or `false` as a result.
+> - Similarly the `hasAllTags()` method uses **exactly** the same signature as the `hasAnyTags()` method, but it behaves differently and performs a strict comparison to check if **ALL** of the given tags are attached.
 
 ### Advanced Usage
 
 #### Generate Tag Slugs
 
-**Rinvex Taggable** auto generates slugs and auto detect and insert default translation for you, but you still can pass it explicitly through normal eloquent `create` method, as follows:
+**Rinvex Taggable** auto generates slugs and auto detect and insert default translation for you if not provided, but you still can pass it explicitly through normal eloquent `create` method, as follows:
 
 ```php
 app('rinvex.taggable.tag')->create(['name' => ['en' => 'My New Tag'], 'slug' => 'custom-tag-slug']);
 ```
 
+> **Note:** Check **[Sluggable](https://github.com/spatie/laravel-sluggable)** package for further details.
+
 #### Smart Parameter Detection
 
-All taggable methods that accept list of tags are smart enough to handle almost all kind of inputs, for example you can pass single tag slug, single tag id, single tag model, an array of tag slugs, an array of tag ids, or a collection of tag models. It will check input type and behave accordingly. Example:
-
-```php
-$post->hasTag(1);
-$post->hasTag([1,2,4]);
-$post->hasTag('my-new-tag');
-$post->hasTag(['my-new-tag', 'my-brand-new-tag']);
-$post->hasTag(app('rinvex.taggable.tag')->where('slug', 'my-new-tag')->first());
-$post->hasTag(app('rinvex.taggable.tag')->whereIn('id', [5,6,7])->get());
-```
-**Rinvex Taggable** can understand any of the above parameter syntax and interpret it correctly, same for other methods in this package.
+**Rinvex Taggable** methods that accept list of tags are smart enough to handle almost all kinds of inputs as you've seen in the above examples. It will check input type and behave accordingly. 
 
 #### Retrieve All Models Attached To The Tag
 
-It's very easy to get all models attached to certain tag as follows:
+You may encounter a situation where you need to get all models attached to certain tag, you do so with ease as follows:
 
 ```php
 $tag = app('rinvex.taggable.tag')->find(1);
-$tag->entries(\App\Models\Post::class);
+$tag->entries(\App\Models\Post::class)->get();
 ```
-
-#### Fired Events
-
-You can listen to the following events fired whenever there's an action on tags:
-
-- rinvex.taggable.attaching
-- rinvex.taggable.attached
-- rinvex.taggable.detaching
-- rinvex.taggable.detached
-- rinvex.taggable.syncing
-- rinvex.taggable.synced
 
 #### Query Scopes
 
 Yes, **Rinvex Taggable** shipped with few awesome query scopes for your convenience, usage example:
 
 ```php
-// Get models with all given tags
-$postsWithAllTags = \App\Models\Post::withAllTags(['my-new-tag', 'my-brand-new-tag'])->get();
+// Single tag id
+$post->withAnyTags(1)->get();
 
-// Get models with any given tags
-$postsWithAnyTags = \App\Models\Post::withAnyTags(['my-new-tag', 'my-brand-new-tag'])->get();
+// Multiple tag IDs array
+$post->withAnyTags([1, 2, 5])->get();
 
-// Get models without tags
-$postsWithoutTags = \App\Models\Post::withoutTags(['my-new-tag', 'my-brand-new-tag'])->get();
+// Multiple tag IDs collection
+$post->withAnyTags(collect([1, 2, 5]))->get();
 
-// Get models without any tags
-$postsWithoutAnyTags = \App\Models\Post::withoutAnyTags()->get();
+// Single tag model instance
+$tagInstance = app('rinvex.taggable.tag')->first();
+$post->withAnyTags($tagInstance)->get();
+
+// Single tag name
+$post->withAnyTags('A very new tag')->get();
+
+// Multiple delimited tag names
+$post->withAnyTags('First Tag, Second Tag, Third Tag');
+
+// Multiple tag names array
+$post->withAnyTags(['First Tag', 'Second Tag'])->get();
+
+// Multiple tag names collection
+$post->withAnyTags(collect(['First Tag', 'Second Tag']))->get();
+
+// Multiple tag model instances
+$tagInstances = app('rinvex.taggable.tag')->whereIn('id', [1, 2, 5])->get();
+$post->withAnyTags($tagInstances)->get();
 ```
+
+> **Notes:** 
+> - The `withAnyTags()` scope finds posts with **ANY** attached tags of the given. It returns normally a query builder, so you can chain it or call `get()` method for example to execute and get results.
+> - Similarly there's few other scopes like `withAllTags()` that finds posts with **ALL** attached tags of the given, `withoutTags()` which finds posts without **ANY** attached tags of the given, and lastly `withoutAnyTags()` which find posts without **ANY** attached tags at all. All scopes are created equal, with same signature, and returns query builder.
 
 #### Tag Translations
 
@@ -177,15 +250,28 @@ Manage tag translations with ease as follows:
 ```php
 $tag = app('rinvex.taggable.tag')->find(1);
 
-// Set tag translation
-$tag->setTranslation('name', 'en', 'Name in English');
+// Update name translations
+$tag->setTranslation('name', 'en', 'New English Tag Name')->save();
 
-// Get tag translation
-$tag->setTranslation('name', 'en');
+// Alternatively you can use default eloquent update
+$tag->update([
+    'name' => [
+        'en' => 'New Tag',
+        'ar' => 'وسم جديد',
+    ],
+]);
+
+// Get single tag translation
+$tag->getTranslation('name', 'en');
+
+// Get all tag translations
+$tag->getTranslations('name');
 
 // Get tag name in default locale
 $tag->name;
 ```
+
+> **Note:** Check **[Translatable](https://github.com/spatie/laravel-translatable)** package for further details.
 
 
 ## Changelog

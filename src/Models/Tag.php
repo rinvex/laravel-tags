@@ -7,6 +7,7 @@ namespace Rinvex\Taggable\Models;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Collection;
+use Rinvex\Taggable\Traits\Taggable;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
@@ -191,78 +192,84 @@ class Tag extends Model implements TagContract, Sortable
      * Scope tags by given group.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param string|null                           $group
+     * @param string                                $group
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithGroup(Builder $builder, string $group = null): Builder
+    public function scopeWithGroup(Builder $builder, string $group): Builder
     {
-        return $group ? $builder->where('group', $group) : $builder;
+        return $builder->where('group', $group);
     }
 
     /**
-     * Find many tags by name or create if not exists.
+     * Get first tag(s) by name or create if not exists.
      *
-     * @param array       $tags
+     * @param mixed       $tags
      * @param string|null $group
      * @param string|null $locale
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function findManyByNameOrCreate(array $tags, string $group = null, string $locale = null): Collection
-    {
-        // Expects array of tag names
-        return collect($tags)->map(function ($tag) use ($group, $locale) {
-            return static::findByNameOrCreate($tag, $group, $locale);
-        });
-    }
-
-    /**
-     * Find tag by attribute or create if not exists.
-     *
-     * @param mixed       $name
-     * @param string|null $locale
-     * @param string|null $group
-     *
-     * @return static
-     */
-    public static function findByNameOrCreate(string $name, string $locale = null, string $group = null): Tag
+    public static function findByNameOrCreate($tags, string $group = null, string $locale = null): Collection
     {
         $locale = $locale ?? app()->getLocale();
 
-        return static::findByName($name, $locale) ?: static::createByName($name, $locale, $group);
+        return collect(Taggable::parseTags($tags))->map(function (string $tag) use ($group, $locale) {
+            return static::firstByName($tag, $group, $locale) ?: static::createByName($tag, $group, $locale);
+        });
     }
 
     /**
      * Find tag by name.
      *
-     * @param string      $name
+     * @param mixed       $tags
+     * @param string|null $group
      * @param string|null $locale
      *
      * @return static|null
      */
-    public static function findByName(string $name, string $locale = null)
+    public static function findByName($tags, string $group = null, string $locale = null): Collection
     {
         $locale = $locale ?? app()->getLocale();
 
-        return static::query()->where("name->{$locale}", $name)->first();
+        return collect(Taggable::parseTags($tags))->map(function (string $tag) use ($group, $locale) {
+            return ($exists = static::firstByName($tag, $group, $locale)) ? $exists->id : null;
+        })->filter()->unique();
+    }
+
+    /**
+     * Get first tag by name.
+     *
+     * @param string      $tag
+     * @param string|null $group
+     * @param string|null $locale
+     *
+     * @return static|null
+     */
+    public static function firstByName(string $tag, string $group = null, string $locale = null)
+    {
+        $locale = $locale ?? app()->getLocale();
+
+        return static::query()->where("name->{$locale}", $tag)->when($group, function (Builder $builder) use ($group) {
+            return $builder->where('group', $group);
+        })->first();
     }
 
     /**
      * Create tag by name.
      *
-     * @param string      $name
+     * @param string      $tag
      * @param string|null $locale
      * @param string|null $group
      *
      * @return static
      */
-    public static function createByName(string $name, string $locale = null, string $group = null): Tag
+    public static function createByName(string $tag, string $group = null, string $locale = null): Tag
     {
         $locale = $locale ?? app()->getLocale();
 
         return static::create([
-            'name' => [$locale => $name],
+            'name' => [$locale => $tag],
             'group' => $group,
         ]);
     }
