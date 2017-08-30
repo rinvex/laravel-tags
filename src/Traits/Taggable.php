@@ -22,7 +22,8 @@ trait Taggable
     /**
      * Register a saved model event with the dispatcher.
      *
-     * @param  \Closure|string  $callback
+     * @param \Closure|string $callback
+     *
      * @return void
      */
     abstract public static function saved($callback);
@@ -312,7 +313,7 @@ trait Taggable
     /**
      * Detach model tags.
      *
-     * @param mixed  $tags
+     * @param mixed $tags
      *
      * @return static
      */
