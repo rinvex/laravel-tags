@@ -15,7 +15,7 @@ class CreateTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('rinvex.taggable.tables.tags'), function (Blueprint $table) {
+        Schema::create(config('rinvex.tags.tables.tags'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
             $table->string('slug');
@@ -38,7 +38,7 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('rinvex.taggable.tables.tags'));
+        Schema::dropIfExists(config('rinvex.tags.tables.tags'));
     }
 
     /**

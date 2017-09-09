@@ -4,21 +4,17 @@ declare(strict_types=1);
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Tag Database Tables
-    |--------------------------------------------------------------------------
-    |
-    | Specify database table names that should be used to
-    | store your data. You may use whatever you like.
-    |
-    */
-
+    // Tags Database Tables
     'tables' => [
 
         'tags' => 'tags',
         'taggables' => 'taggables',
 
+    ],
+
+    // Tags Models
+    'models' => [
+        'tag' => \Rinvex\Tags\Models\Tag::class,
     ],
 
 ];
