@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rinvex\Tags\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Rinvex\Tags\Contracts\TagContract;
+use Illuminate\Support\ServiceProvider;
 use Rinvex\Tags\Console\Commands\MigrateCommand;
 
 class TagsServiceProvider extends ServiceProvider
