@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Taggable\Traits;
+namespace Rinvex\Tags\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -62,7 +62,7 @@ trait Taggable
      */
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(config('rinvex.taggable.models.tag'), 'taggable', config('rinvex.taggable.tables.taggables'), 'taggable_id', 'tag_id')
+        return $this->morphToMany(config('rinvex.tags.models.tag'), 'taggable', config('rinvex.tags.tables.taggables'), 'taggable_id', 'tag_id')
                     ->orderBy('sort_order')
                     ->withTimestamps();
     }
@@ -289,7 +289,7 @@ trait Taggable
 
         // Find tags by name or create if not exists
         if (is_array($tags) && is_string(array_first($tags))) {
-            $tags = app('rinvex.taggable.tag')->findByNameOrCreate($tags)->pluck('id');
+            $tags = app('rinvex.tags.tag')->findByNameOrCreate($tags)->pluck('id');
         }
 
         // Sync model tags
@@ -348,7 +348,7 @@ trait Taggable
 
         // Find tags by name, and get their IDs
         if (is_string($tags) || (is_array($tags) && is_string(array_first($tags)))) {
-            $tags = app('rinvex.taggable.tag')->findByName($tags, $group, $locale);
+            $tags = app('rinvex.tags.tag')->findByName($tags, $group, $locale);
         }
 
         if ($tags instanceof Model) {

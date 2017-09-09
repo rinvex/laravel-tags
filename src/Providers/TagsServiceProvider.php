@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Taggable\Providers;
+namespace Rinvex\Tags\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Rinvex\Taggable\Contracts\TagContract;
-use Rinvex\Taggable\Console\Commands\MigrateCommand;
+use Rinvex\Tags\Contracts\TagContract;
+use Rinvex\Tags\Console\Commands\MigrateCommand;
 
-class TaggableServiceProvider extends ServiceProvider
+class TagsServiceProvider extends ServiceProvider
 {
     /**
      * The commands to be registered.
@@ -16,7 +16,7 @@ class TaggableServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        MigrateCommand::class => 'command.rinvex.taggable.migrate',
+        MigrateCommand::class => 'command.rinvex.tags.migrate',
     ];
 
     /**
@@ -25,13 +25,13 @@ class TaggableServiceProvider extends ServiceProvider
     public function register()
     {
         // Merge config
-        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.taggable');
+        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.tags');
 
         // Bind eloquent models to IoC container
-        $this->app->singleton('rinvex.taggable.tag', function ($app) {
-            return new $app['config']['rinvex.taggable.models.tag']();
+        $this->app->singleton('rinvex.tags.tag', function ($app) {
+            return new $app['config']['rinvex.tags.models.tag']();
         });
-        $this->app->alias('rinvex.taggable.tag', TagContract::class);
+        $this->app->alias('rinvex.tags.tag', TagContract::class);
 
         // Register console commands
         ! $this->app->runningInConsole() || $this->registerCommands();
@@ -56,8 +56,8 @@ class TaggableServiceProvider extends ServiceProvider
      */
     protected function publishResources()
     {
-        $this->publishes([realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.taggable.php')], 'rinvex-taggable-config');
-        $this->publishes([realpath(__DIR__.'/../../database/migrations') => database_path('migrations')], 'rinvex-taggable-migrations');
+        $this->publishes([realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.tags.php')], 'rinvex-tags-config');
+        $this->publishes([realpath(__DIR__.'/../../database/migrations') => database_path('migrations')], 'rinvex-tags-migrations');
     }
 
     /**

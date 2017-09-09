@@ -15,7 +15,7 @@ class CreateTaggablesTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('rinvex.taggable.tables.taggables'), function (Blueprint $table) {
+        Schema::create(config('rinvex.tags.tables.taggables'), function (Blueprint $table) {
             // Columns
             $table->integer('tag_id')->unsigned();
             $table->morphs('taggable');
@@ -23,7 +23,7 @@ class CreateTaggablesTable extends Migration
 
             // Indexes
             $table->unique(['tag_id', 'taggable_id', 'taggable_type'], 'taggables_ids_type_unique');
-            $table->foreign('tag_id')->references('id')->on(config('rinvex.taggable.tables.tags'))
+            $table->foreign('tag_id')->references('id')->on(config('rinvex.tags.tables.tags'))
                   ->onDelete('cascade')->onUpdate('cascade');
         });
     }
@@ -35,6 +35,6 @@ class CreateTaggablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('rinvex.taggable.tables.taggables'));
+        Schema::dropIfExists(config('rinvex.tags.tables.taggables'));
     }
 }

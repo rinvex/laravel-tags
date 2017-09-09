@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Taggable\Contracts;
+namespace Rinvex\Tags\Contracts;
 
 /**
- * Rinvex\Taggable\Contracts\TagContract.
+ * Rinvex\Tags\Contracts\TagContract.
  *
  * @property int            $id
  * @property string         $slug
@@ -17,17 +17,17 @@ namespace Rinvex\Taggable\Contracts;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag ordered($direction = 'asc')
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereGroup($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereSortOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag withGroup($group = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag ordered($direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag withGroup($group = null)
  * @mixin \Eloquent
  */
 interface TagContract

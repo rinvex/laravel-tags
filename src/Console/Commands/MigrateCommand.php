@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Taggable\Console\Commands;
+namespace Rinvex\Tags\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -13,14 +13,14 @@ class MigrateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'rinvex:migrate:taggable';
+    protected $signature = 'rinvex:migrate:tags';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Migrate Rinvex Taggable Tables.';
+    protected $description = 'Migrate Rinvex Tags Tables.';
 
     /**
      * Execute the console command.
@@ -29,7 +29,7 @@ class MigrateCommand extends Command
      */
     public function handle()
     {
-        $this->warn('Migrate rinvex/taggable:');
-        $this->call('migrate', ['--step' => true, '--path' => 'vendor/rinvex/taggable/database/migrations']);
+        $this->warn('Migrate rinvex/tags:');
+        $this->call('migrate', ['--step' => true, '--path' => 'vendor/rinvex/tags/database/migrations']);
     }
 }

@@ -1,27 +1,27 @@
-# Rinvex Taggable
+# Rinvex Tags
 
-**Rinvex Taggable** is a polymorphic Laravel package, for tag management. You can tag any eloquent model with ease, and utilize the awesomeness of **[Sluggable](https://github.com/spatie/laravel-sluggable)**, and **[Translatable](https://github.com/spatie/laravel-translatable)** models out of the box.
+**Rinvex Tags** is a polymorphic Laravel package, for tag management. You can tag any eloquent model with ease, and utilize the awesomeness of **[Sluggable](https://github.com/spatie/laravel-sluggable)**, and **[Translatable](https://github.com/spatie/laravel-translatable)** models out of the box.
 
-[![Packagist](https://img.shields.io/packagist/v/rinvex/taggable.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/taggable)
-[![VersionEye Dependencies](https://img.shields.io/versioneye/d/php/rinvex:taggable.svg?label=Dependencies&style=flat-square)](https://www.versioneye.com/php/rinvex:taggable/)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/taggable.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/taggable/)
-[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/taggable.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/taggable)
-[![Travis](https://img.shields.io/travis/rinvex/taggable.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/taggable)
+[![Packagist](https://img.shields.io/packagist/v/rinvex/tags.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/tags)
+[![VersionEye Dependencies](https://img.shields.io/versioneye/d/php/rinvex:tags.svg?label=Dependencies&style=flat-square)](https://www.versioneye.com/php/rinvex:tags/)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/tags.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/tags/)
+[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/tags.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/tags)
+[![Travis](https://img.shields.io/travis/rinvex/tags.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/tags)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/898fbbb8-7104-4c58-bb85-d9ada4afe481.svg?label=SensioLabs&style=flat-square)](https://insight.sensiolabs.com/projects/898fbbb8-7104-4c58-bb85-d9ada4afe481)
 [![StyleCI](https://styleci.io/repos/87597843/shield)](https://styleci.io/repos/87597843)
-[![License](https://img.shields.io/packagist/l/rinvex/taggable.svg?label=License&style=flat-square)](https://github.com/rinvex/taggable/blob/develop/LICENSE)
+[![License](https://img.shields.io/packagist/l/rinvex/tags.svg?label=License&style=flat-square)](https://github.com/rinvex/tags/blob/develop/LICENSE)
 
 
 ## Installation
 
 1. Install the package via composer:
     ```shell
-    composer require rinvex/taggable
+    composer require rinvex/tags
     ```
 
 2. Execute migrations via the following command:
     ```
-    php artisan rinvex:migrate:taggable
+    php artisan rinvex:migrate:tags
     ```
 
 3. Done!
@@ -31,12 +31,12 @@
 
 ### Create Your Model
 
-Simply create a new eloquent model, and use `\Rinvex\Taggable\Traits\Taggable` trait:
+Simply create a new eloquent model, and use `\Rinvex\Tags\Traits\Taggable` trait:
 
 ```php
 namespace App\Models;
 
-use Rinvex\Taggable\Traits\Taggable;
+use Rinvex\Tags\Traits\Taggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -52,41 +52,41 @@ Your tags are just normal [eloquent](https://laravel.com/docs/master/eloquent) m
 
 ```php
 // Create new tag by name
-app('rinvex.taggable.tag')->createByName('My New Tag');
+app('rinvex.tags.tag')->createByName('My New Tag');
 
 // Create new tag by name, group, and translation
-app('rinvex.taggable.tag')->createByName('The very new tag', 'blog', 'en');
+app('rinvex.tags.tag')->createByName('The very new tag', 'blog', 'en');
 
 // Find first tag by name
-app('rinvex.taggable.tag')->firstByName('My New Tag');
+app('rinvex.tags.tag')->firstByName('My New Tag');
 
 // Find first tag by name, group, and translation
-app('rinvex.taggable.tag')->firstByName('وسم جديد', 'board', 'ar');
+app('rinvex.tags.tag')->firstByName('وسم جديد', 'board', 'ar');
 
 // Find tag(s) by name
-app('rinvex.taggable.tag')->findByName('My New Tag');
+app('rinvex.tags.tag')->findByName('My New Tag');
 
 // Find tag(s) by name, group, and translation
-app('rinvex.taggable.tag')->findByName('وسم جديد', 'board', 'ar');
+app('rinvex.tags.tag')->findByName('وسم جديد', 'board', 'ar');
 
 // Find multiple tags by names array
-app('rinvex.taggable.tag')->findByName(['Tag One', 'Tag Two']);
+app('rinvex.tags.tag')->findByName(['Tag One', 'Tag Two']);
 
 // Find multiple tags by delimited names (tag delimiter is customizable)
-app('rinvex.taggable.tag')->findByName('First Tag, Second Tag, Third Tag');
+app('rinvex.tags.tag')->findByName('First Tag, Second Tag, Third Tag');
 
 // Find tag(s) by name or create if not exists
-app('rinvex.taggable.tag')->findByNameOrCreate('My Brand New Tag');
+app('rinvex.tags.tag')->findByNameOrCreate('My Brand New Tag');
 
 // Find tag(s) by name, group, and translation or create if not exists
-app('rinvex.taggable.tag')->findByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
+app('rinvex.tags.tag')->findByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
 
 // Find tag(s) by group using query scopes
-app('rinvex.taggable.tag')->withGroup('blog')->get();
+app('rinvex.tags.tag')->withGroup('blog')->get();
 ```
 
 > **Notes:** 
-> - **Rinvex Taggable** extends and utilizes other awesome packages, to be translatable out of the box using [`spatie/laravel-translatable`](https://github.com/spatie/laravel-translatable), and for automatic Slugging it uses [`spatie/laravel-sluggable`](https://github.com/spatie/laravel-sluggable) packages. Them them out.
+> - **Rinvex Tags** extends and utilizes other awesome packages, to be translatable out of the box using [`spatie/laravel-translatable`](https://github.com/spatie/laravel-translatable), and for automatic Slugging it uses [`spatie/laravel-sluggable`](https://github.com/spatie/laravel-sluggable) packages. Them them out.
 > - Both `findByName()` and `findByNameOrCreate()` methods accepts either one or more tags as their first argument, and always return a collection.
 
 ### Manage Your Taggable Model
@@ -117,7 +117,7 @@ $post->attachTags([1, 2, 5]);
 $post->attachTags(collect([1, 2, 5]));
 
 // Single tag model instance
-$tagInstance = app('rinvex.taggable.tag')->first();
+$tagInstance = app('rinvex.tags.tag')->first();
 $post->attachTags($tagInstance);
 
 // Single tag name (created if not exists)
@@ -133,7 +133,7 @@ $post->attachTags(['First Tag', 'Second Tag']);
 $post->attachTags(collect(['First Tag', 'Second Tag']));
 
 // Multiple tag model instances
-$tagInstances = app('rinvex.taggable.tag')->whereIn('id', [1, 2, 5])->get();
+$tagInstances = app('rinvex.tags.tag')->whereIn('id', [1, 2, 5])->get();
 $post->attachTags($tagInstances);
 ```
 
@@ -155,7 +155,7 @@ $post->hasAnyTags([1, 2, 5]);
 $post->hasAnyTags(collect([1, 2, 5]));
 
 // Single tag model instance
-$tagInstance = app('rinvex.taggable.tag')->first();
+$tagInstance = app('rinvex.tags.tag')->first();
 $post->hasAnyTags($tagInstance);
 
 // Single tag name
@@ -171,7 +171,7 @@ $post->hasAnyTags(['First Tag', 'Second Tag']);
 $post->hasAnyTags(collect(['First Tag', 'Second Tag']));
 
 // Multiple tag model instances
-$tagInstances = app('rinvex.taggable.tag')->whereIn('id', [1, 2, 5])->get();
+$tagInstances = app('rinvex.tags.tag')->whereIn('id', [1, 2, 5])->get();
 $post->hasAnyTags($tagInstances);
 ```
 
@@ -183,30 +183,30 @@ $post->hasAnyTags($tagInstances);
 
 #### Generate Tag Slugs
 
-**Rinvex Taggable** auto generates slugs and auto detect and insert default translation for you if not provided, but you still can pass it explicitly through normal eloquent `create` method, as follows:
+**Rinvex Tags** auto generates slugs and auto detect and insert default translation for you if not provided, but you still can pass it explicitly through normal eloquent `create` method, as follows:
 
 ```php
-app('rinvex.taggable.tag')->create(['name' => ['en' => 'My New Tag'], 'slug' => 'custom-tag-slug']);
+app('rinvex.tags.tag')->create(['name' => ['en' => 'My New Tag'], 'slug' => 'custom-tag-slug']);
 ```
 
 > **Note:** Check **[Sluggable](https://github.com/spatie/laravel-sluggable)** package for further details.
 
 #### Smart Parameter Detection
 
-**Rinvex Taggable** methods that accept list of tags are smart enough to handle almost all kinds of inputs as you've seen in the above examples. It will check input type and behave accordingly. 
+**Rinvex Tags** methods that accept list of tags are smart enough to handle almost all kinds of inputs as you've seen in the above examples. It will check input type and behave accordingly. 
 
 #### Retrieve All Models Attached To The Tag
 
 You may encounter a situation where you need to get all models attached to certain tag, you do so with ease as follows:
 
 ```php
-$tag = app('rinvex.taggable.tag')->find(1);
+$tag = app('rinvex.tags.tag')->find(1);
 $tag->entries(\App\Models\Post::class)->get();
 ```
 
 #### Query Scopes
 
-Yes, **Rinvex Taggable** shipped with few awesome query scopes for your convenience, usage example:
+Yes, **Rinvex Tags** shipped with few awesome query scopes for your convenience, usage example:
 
 ```php
 // Single tag id
@@ -219,7 +219,7 @@ $post->withAnyTags([1, 2, 5])->get();
 $post->withAnyTags(collect([1, 2, 5]))->get();
 
 // Single tag model instance
-$tagInstance = app('rinvex.taggable.tag')->first();
+$tagInstance = app('rinvex.tags.tag')->first();
 $post->withAnyTags($tagInstance)->get();
 
 // Single tag name
@@ -235,7 +235,7 @@ $post->withAnyTags(['First Tag', 'Second Tag'])->get();
 $post->withAnyTags(collect(['First Tag', 'Second Tag']))->get();
 
 // Multiple tag model instances
-$tagInstances = app('rinvex.taggable.tag')->whereIn('id', [1, 2, 5])->get();
+$tagInstances = app('rinvex.tags.tag')->whereIn('id', [1, 2, 5])->get();
 $post->withAnyTags($tagInstances)->get();
 ```
 
@@ -248,7 +248,7 @@ $post->withAnyTags($tagInstances)->get();
 Manage tag translations with ease as follows:
 
 ```php
-$tag = app('rinvex.taggable.tag')->find(1);
+$tag = app('rinvex.tags.tag')->find(1);
 
 // Update name translations
 $tag->setTranslation('name', 'en', 'New English Tag Name')->save();

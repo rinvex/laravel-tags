@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Taggable\Models;
+namespace Rinvex\Tags\Models;
 
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Collection;
-use Rinvex\Taggable\Traits\Taggable;
+use Rinvex\Tags\Traits\Taggable;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
-use Rinvex\Taggable\Contracts\TagContract;
+use Rinvex\Tags\Contracts\TagContract;
 use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * Rinvex\Taggable\Models\Tag.
+ * Rinvex\Tags\Models\Tag.
  *
  * @property int            $id
  * @property string         $slug
@@ -31,17 +31,17 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag ordered($direction = 'asc')
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereGroup($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereSortOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Taggable\Models\Tag withGroup($group = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag ordered($direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag withGroup($group = null)
  * @mixin \Eloquent
  */
 class Tag extends Model implements TagContract, Sortable
@@ -124,9 +124,9 @@ class Tag extends Model implements TagContract, Sortable
     {
         parent::__construct($attributes);
 
-        $this->setTable(config('rinvex.taggable.tables.tags'));
+        $this->setTable(config('rinvex.tags.tables.tags'));
         $this->setRules([
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.taggable.tables.tags').',slug',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.tags.tables.tags').',slug',
             'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'sort_order' => 'nullable|integer|max:10000000',
@@ -160,7 +160,7 @@ class Tag extends Model implements TagContract, Sortable
      */
     public function entries(string $class): MorphToMany
     {
-        return $this->morphedByMany($class, 'taggable', config('rinvex.taggable.tables.taggables'), 'tag_id', 'taggable_id');
+        return $this->morphedByMany($class, 'taggable', config('rinvex.tags.tables.taggables'), 'tag_id', 'taggable_id');
     }
 
     /**

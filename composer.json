@@ -1,6 +1,6 @@
 {
-    "name": "rinvex/taggable",
-    "description": "Rinvex Taggable is a polymorphic Laravel package, for tag management. You can tag any eloquent model with ease, and utilize the awesomeness of Sluggable, and Translatable models out of the box.",
+    "name": "rinvex/tags",
+    "description": "Rinvex Tags is a polymorphic Laravel package, for tag management. You can tag any eloquent model with ease, and utilize the awesomeness of Sluggable, and Translatable models out of the box.",
     "keywords": [
         "tag",
         "model",
@@ -18,9 +18,9 @@
     "homepage": "https://rinvex.com",
     "support": {
         "email": "help@rinvex.com",
-        "issues": "https://github.com/rinvex/taggable/issues",
-        "source": "https://github.com/rinvex/taggable",
-        "docs": "https://github.com/rinvex/taggable/blob/master/README.md"
+        "issues": "https://github.com/rinvex/tags/issues",
+        "source": "https://github.com/rinvex/tags",
+        "docs": "https://github.com/rinvex/tags/blob/master/README.md"
     },
     "authors": [
         {
@@ -36,7 +36,7 @@
         },
         {
             "name": "The Generous Laravel Community",
-            "homepage": "https://github.com/rinvex/taggable/contributors"
+            "homepage": "https://github.com/rinvex/tags/contributors"
         }
     ],
     "require": {
@@ -58,12 +58,12 @@
             "database"
         ],
         "psr-4": {
-            "Rinvex\\Taggable\\": "src/"
+            "Rinvex\\Tags\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Rinvex\\Taggable\\Test\\": "tests"
+            "Rinvex\\Tags\\Test\\": "tests"
         }
     },
     "config": {
@@ -77,7 +77,7 @@
         },
         "laravel": {
             "providers": [
-                "Rinvex\\Taggable\\Providers\\TaggableServiceProvider"
+                "Rinvex\\Tags\\Providers\\TagsServiceProvider"
             ]
         }
     },
