@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Rinvex\Tags\Models;
 
 use Spatie\Sluggable\HasSlug;
+use Rinvex\Tags\Traits\Taggable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Collection;
-use Rinvex\Tags\Traits\Taggable;
 use Spatie\EloquentSortable\Sortable;
+use Rinvex\Tags\Contracts\TagContract;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
-use Rinvex\Tags\Contracts\TagContract;
 use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
