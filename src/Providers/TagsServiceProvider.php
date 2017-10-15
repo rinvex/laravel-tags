@@ -7,6 +7,7 @@ namespace Rinvex\Tags\Providers;
 use Rinvex\Tags\Contracts\TagContract;
 use Illuminate\Support\ServiceProvider;
 use Rinvex\Tags\Console\Commands\MigrateCommand;
+use Rinvex\Tags\Console\Commands\PublishCommand;
 
 class TagsServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,7 @@ class TagsServiceProvider extends ServiceProvider
      */
     protected $commands = [
         MigrateCommand::class => 'command.rinvex.tags.migrate',
+        PublishCommand::class => 'command.rinvex.tags.publish',
     ];
 
     /**
