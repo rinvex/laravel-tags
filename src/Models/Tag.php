@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Rinvex\Tags\Models;
 
-use Spatie\Sluggable\HasSlug;
 use Rinvex\Tags\Traits\Taggable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Collection;
+use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
 use Rinvex\Tags\Contracts\TagContract;
 use Illuminate\Database\Eloquent\Model;
@@ -132,23 +132,6 @@ class Tag extends Model implements TagContract, Sortable
             'sort_order' => 'nullable|integer|max:10000000',
             'group' => 'nullable|string|max:150',
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        // Early auto generate slugs before validation
-        static::validating(function (self $tag) {
-            if ($tag->exists && $tag->getSlugOptions()->generateSlugsOnUpdate) {
-                $tag->generateSlugOnUpdate();
-            } elseif (! $tag->exists && $tag->getSlugOptions()->generateSlugsOnCreate) {
-                $tag->generateSlugOnCreate();
-            }
-        });
     }
 
     /**
