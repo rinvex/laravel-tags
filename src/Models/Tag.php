@@ -247,7 +247,7 @@ class Tag extends Model implements TagContract, Sortable
      *
      * @return static
      */
-    public static function createByName(string $tag, string $group = null, string $locale = null): Tag
+    public static function createByName(string $tag, string $group = null, string $locale = null): self
     {
         $locale = $locale ?? app()->getLocale();
 
