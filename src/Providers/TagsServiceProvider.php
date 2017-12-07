@@ -8,6 +8,7 @@ use Rinvex\Tags\Contracts\TagContract;
 use Illuminate\Support\ServiceProvider;
 use Rinvex\Tags\Console\Commands\MigrateCommand;
 use Rinvex\Tags\Console\Commands\PublishCommand;
+use Rinvex\Tags\Console\Commands\RollbackCommand;
 
 class TagsServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,7 @@ class TagsServiceProvider extends ServiceProvider
     protected $commands = [
         MigrateCommand::class => 'command.rinvex.tags.migrate',
         PublishCommand::class => 'command.rinvex.tags.publish',
+        RollbackCommand::class => 'command.rinvex.tags.rollback',
     ];
 
     /**
