@@ -8,6 +8,7 @@
         "taggable",
         "taxonomy",
         "eloquent",
+        "laravel",
         "translatable",
         "polymorphic",
         "sluggable",
@@ -63,7 +64,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Rinvex\\Tags\\Test\\": "tests"
+            "Rinvex\\Tags\\Tests\\": "tests"
         }
     },
     "config": {
