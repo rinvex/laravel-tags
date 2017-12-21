@@ -78,9 +78,6 @@ app('rinvex.tags.tag')->findByNameOrCreate('My Brand New Tag');
 
 // Find tag(s) by name, group, and translation or create if not exists
 app('rinvex.tags.tag')->findByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
-
-// Find tag(s) by group using query scopes
-app('rinvex.tags.tag')->withGroup('blog')->get();
 ```
 
 > **Notes:** 

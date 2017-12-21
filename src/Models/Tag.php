@@ -41,7 +41,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSortOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag withGroup($group)
  * @mixin \Eloquent
  */
 class Tag extends Model implements TagContract, Sortable
@@ -169,19 +168,6 @@ class Tag extends Model implements TagContract, Sortable
                           ->doNotGenerateSlugsOnUpdate()
                           ->generateSlugsFrom('name')
                           ->saveSlugsTo('slug');
-    }
-
-    /**
-     * Scope tags by given group.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param string                                $group
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeWithGroup(Builder $builder, string $group): Builder
-    {
-        return $builder->where('group', $group);
     }
 
     /**
