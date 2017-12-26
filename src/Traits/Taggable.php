@@ -285,10 +285,6 @@ trait Taggable
         // Parse delimited tags string
         if (is_string($tags)) {
             $tags = static::parseTags($tags);
-        }
-
-        // Find tags by name or create if not exists
-        if (is_array($tags) && is_string(array_first($tags))) {
             $tags = app('rinvex.tags.tag')->findByNameOrCreate($tags)->pluck('id');
         }
 
