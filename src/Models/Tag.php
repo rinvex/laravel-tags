@@ -183,7 +183,7 @@ class Tag extends Model implements TagContract, Sortable
     {
         $locale = $locale ?? app()->getLocale();
 
-        return collect(Taggable::parseTags($tags))->map(function (string $tag) use ($group, $locale) {
+        return collect(Taggable::parseDelimitedTags($tags))->map(function (string $tag) use ($group, $locale) {
             return static::firstByName($tag, $group, $locale) ?: static::createByName($tag, $group, $locale);
         });
     }
@@ -201,8 +201,8 @@ class Tag extends Model implements TagContract, Sortable
     {
         $locale = $locale ?? app()->getLocale();
 
-        return collect(Taggable::parseTags($tags))->map(function (string $tag) use ($group, $locale) {
-            return ($exists = static::firstByName($tag, $group, $locale)) ? $exists->id : null;
+        return collect(Taggable::parseDelimitedTags($tags))->map(function (string $tag) use ($group, $locale) {
+            return ($exists = static::firstByName($tag, $group, $locale)) ? $exists->getKey() : null;
         })->filter()->unique();
     }
 

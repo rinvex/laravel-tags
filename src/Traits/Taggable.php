@@ -90,6 +90,18 @@ trait Taggable
     }
 
     /**
+     * Boot the taggable trait for the model.
+     *
+     * @return void
+     */
+    public static function bootTaggable()
+    {
+        static::deleted(function (self $model) {
+            $model->tags()->detach();
+        });
+    }
+
+    /**
      * Attach the given tag(s) to the model.
      *
      * @param mixed $tags
@@ -100,18 +112,6 @@ trait Taggable
     {
         static::saved(function (self $model) use ($tags) {
             $model->syncTags($tags);
-        });
-    }
-
-    /**
-     * Boot the taggable trait for the model.
-     *
-     * @return void
-     */
-    public static function bootTaggable()
-    {
-        static::deleted(function (self $model) {
-            $model->tags()->detach();
         });
     }
 
@@ -127,7 +127,7 @@ trait Taggable
      */
     public function scopeWithAllTags(Builder $builder, $tags, string $group = null, string $locale = null): Builder
     {
-        $tags = $this->prepareTagIds($tags, $group, $locale);
+        $tags = $this->parseTags($tags, $group, $locale);
 
         collect($tags)->each(function ($tag) use ($builder, $group) {
             $builder->whereHas('tags', function (Builder $builder) use ($tag, $group) {
@@ -152,28 +152,13 @@ trait Taggable
      */
     public function scopeWithAnyTags(Builder $builder, $tags, string $group = null, string $locale = null): Builder
     {
-        $tags = $this->prepareTagIds($tags, $group, $locale);
+        $tags = $this->parseTags($tags, $group, $locale);
 
         return $builder->whereHas('tags', function (Builder $builder) use ($tags, $group) {
             $builder->whereIn('id', $tags)->when($group, function (Builder $builder) use ($group) {
                 return $builder->where('group', $group);
             });
         });
-    }
-
-    /**
-     * Scope query with any of the given tags.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param mixed                                 $tags
-     * @param string                                $group
-     * @param string                                $locale
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeWithTags(Builder $builder, $tags, string $group = null, string $locale = null): Builder
-    {
-        return static::scopeWithAnyTags($builder, $tags, $group, $locale);
     }
 
     /**
@@ -188,7 +173,7 @@ trait Taggable
      */
     public function scopeWithoutTags(Builder $builder, $tags, string $group = null, string $locale = null): Builder
     {
-        $tags = $this->prepareTagIds($tags, $group, $locale);
+        $tags = $this->parseTags($tags, $group, $locale);
 
         return $builder->whereDoesntHave('tags', function (Builder $builder) use ($tags, $group) {
             $builder->whereIn('id', $tags)->when($group, function (Builder $builder) use ($group) {
@@ -218,25 +203,11 @@ trait Taggable
      *
      * @return bool
      */
-    public function hasTags($tags, string $group = null, string $locale = null): bool
-    {
-        $tags = $this->prepareTagIds($tags, $group, $locale);
-
-        return ! $this->tags->pluck('id')->intersect($tags)->isEmpty();
-    }
-
-    /**
-     * Determine if the model has any the given tags.
-     *
-     * @param mixed  $tags
-     * @param string $group
-     * @param string $locale
-     *
-     * @return bool
-     */
     public function hasAnyTags($tags, string $group = null, string $locale = null): bool
     {
-        return static::hasTags($tags, $group, $locale);
+        $tags = $this->parseTags($tags, $group, $locale);
+
+        return ! $this->tags->pluck('id')->intersect($tags)->isEmpty();
     }
 
     /**
@@ -250,19 +221,19 @@ trait Taggable
      */
     public function hasAllTags($tags, string $group = null, string $locale = null): bool
     {
-        $tags = $this->prepareTagIds($tags, $group, $locale);
+        $tags = $this->parseTags($tags, $group, $locale);
 
         return collect($tags)->diff($this->tags->pluck('id'))->isEmpty();
     }
 
     /**
-     * Parse tags.
+     * Parse delimited tags.
      *
      * @param mixed $tags
      *
      * @return array
      */
-    public static function parseTags($tags): array
+    public static function parseDelimitedTags($tags): array
     {
         if (is_string($tags) && mb_strpos($tags, static::$tagsDelimiter) !== false) {
             $delimiter = preg_quote(static::$tagsDelimiter, '#');
@@ -270,6 +241,21 @@ trait Taggable
         }
 
         return array_unique(array_filter((array) $tags));
+    }
+
+    /**
+     * Attach model tags.
+     *
+     * @param mixed $tags
+     *
+     * @return $this
+     */
+    public function attachTags($tags)
+    {
+        // Use 'sync' not 'attach' to avoid Integrity constraint violation
+        $this->tags()->sync($this->parseTags($tags), false);
+
+        return $this;
     }
 
     /**
@@ -282,28 +268,9 @@ trait Taggable
      */
     public function syncTags($tags, bool $detaching = true)
     {
-        // Parse delimited tags string
-        if (is_string($tags)) {
-            $tags = static::parseTags($tags);
-            $tags = app('rinvex.tags.tag')->findByNameOrCreate($tags)->pluck('id');
-        }
-
-        // Sync model tags
-        $this->tags()->sync($tags, $detaching);
+        $this->tags()->sync($this->parseTags($tags, null, null, true), $detaching);
 
         return $this;
-    }
-
-    /**
-     * Attach model tags.
-     *
-     * @param mixed $tags
-     *
-     * @return $this
-     */
-    public function attachTags($tags)
-    {
-        return $this->syncTags($tags, false);
     }
 
     /**
@@ -315,48 +282,32 @@ trait Taggable
      */
     public function detachTags($tags = null)
     {
-        $tags = ! is_null($tags) ? $this->prepareTagIds($tags) : null;
+        ! $tags || $tags = $this->parseTags($tags);
 
-        // Sync model tags
         $this->tags()->detach($tags);
 
         return $this;
     }
 
     /**
-     * Prepare tag IDs.
+     * Parse tags.
      *
      * @param mixed  $tags
      * @param string $group
      * @param string $locale
+     * @param bool   $create
      *
      * @return array
      */
-    protected function prepareTagIds($tags, string $group = null, string $locale = null): array
+    protected function parseTags($tags, string $group = null, string $locale = null, $create = false): array
     {
-        // Convert collection to plain array
-        if ($tags instanceof BaseCollection && is_string($tags->first())) {
-            $tags = $tags->toArray();
-        }
-
-        // Convert collection to plain array
+        ! $tags instanceof Model || $tags = [$tags->getKey()];
+        ! $tags instanceof Collection || $tags = $tags->modelKeys();
         ! $tags instanceof BaseCollection || $tags = $tags->toArray();
 
         // Find tags by name, and get their IDs
         if (is_string($tags) || (is_array($tags) && is_string(array_first($tags)))) {
-            $tags = app('rinvex.tags.tag')->findByName($tags, $group, $locale);
-        }
-
-        if ($tags instanceof Model) {
-            return [$tags->getKey()];
-        }
-
-        if ($tags instanceof Collection) {
-            return $tags->modelKeys();
-        }
-
-        if ($tags instanceof BaseCollection) {
-            return $tags->toArray();
+            $tags = app('rinvex.tags.tag')->{$create ? 'findByNameOrCreate' : 'findByName'}($tags, $group, $locale)->toArray();
         }
 
         return (array) $tags;
