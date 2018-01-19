@@ -108,7 +108,7 @@ trait Taggable
      *
      * @return void
      */
-    public function setTagsAttribute($tags)
+    public function setTagsAttribute($tags): void
     {
         static::saved(function (self $model) use ($tags) {
             $model->syncTags($tags);

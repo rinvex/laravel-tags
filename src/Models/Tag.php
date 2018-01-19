@@ -152,7 +152,7 @@ class Tag extends Model implements TagContract, Sortable
      *
      * @return void
      */
-    public function setGroupAttribute($value)
+    public function setGroupAttribute($value): void
     {
         $this->attributes['group'] = str_slug($value);
     }
