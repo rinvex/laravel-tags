@@ -9,7 +9,6 @@ use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Collection;
 use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
-use Rinvex\Tags\Contracts\TagContract;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -43,7 +42,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Tag extends Model implements TagContract, Sortable
+class Tag extends Model implements Sortable
 {
     use HasSlug;
     use SortableTrait;

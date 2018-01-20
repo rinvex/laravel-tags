@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Rinvex\Tags\Providers;
 
-use Rinvex\Tags\Contracts\TagContract;
+use Rinvex\Tags\Models\Tag;
 use Illuminate\Support\ServiceProvider;
 use Rinvex\Tags\Console\Commands\MigrateCommand;
 use Rinvex\Tags\Console\Commands\PublishCommand;
@@ -35,7 +35,7 @@ class TagsServiceProvider extends ServiceProvider
         $this->app->singleton('rinvex.tags.tag', function ($app) {
             return new $app['config']['rinvex.tags.models.tag']();
         });
-        $this->app->alias('rinvex.tags.tag', TagContract::class);
+        $this->app->alias('rinvex.tags.tag', Tag::class);
 
         // Register console commands
         ! $this->app->runningInConsole() || $this->registerCommands();
