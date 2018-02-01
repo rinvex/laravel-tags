@@ -292,14 +292,14 @@ trait Taggable
     /**
      * Parse tags.
      *
-     * @param mixed  $tags
+     * @param mixed  $rawTags
      * @param string $group
      * @param string $locale
      * @param bool   $create
      *
      * @return array
      */
-    protected function parseTags($tags, string $group = null, string $locale = null, $create = false): array
+    protected function parseTags($rawTags, string $group = null, string $locale = null, $create = false): array
     {
         (is_iterable($rawTags) || is_null($rawTags)) || $rawTags = [$rawTags];
 
