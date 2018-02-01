@@ -301,15 +301,20 @@ trait Taggable
      */
     protected function parseTags($tags, string $group = null, string $locale = null, $create = false): array
     {
-        ! $tags instanceof Model || $tags = [$tags->getKey()];
-        ! $tags instanceof Collection || $tags = $tags->modelKeys();
-        ! $tags instanceof BaseCollection || $tags = $tags->toArray();
+        (is_iterable($rawTags) || is_null($rawTags)) || $rawTags = [$rawTags];
 
-        // Find tags by name, and get their IDs
-        if (is_string($tags) || (is_array($tags) && is_string(array_first($tags)))) {
-            $tags = app('rinvex.tags.tag')->{$create ? 'findByNameOrCreate' : 'findByName'}($tags, $group, $locale)->toArray();
-        }
+        list($strings, $tags) = collect($rawTags)->map(function ($tag) {
+            ! is_numeric($tag) || $tag = (int) $tag;
 
-        return (array) $tags;
+            ! $tag instanceof Model || $tag = [$tag->getKey()];
+            ! $tag instanceof Collection || $tag = $tag->modelKeys();
+            ! $tag instanceof BaseCollection || $tag = $tag->toArray();
+
+            return $tag;
+        })->partition(function ($item) {
+            return is_string($item);
+        });
+
+        return $tags->merge(app('rinvex.tags.tag')->{$create ? 'findByNameOrCreate' : 'findByName'}($strings->toArray(), $group, $locale)->pluck('id'))->toArray();
     }
 }
