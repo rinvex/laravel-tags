@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Rinvex\Tags\Providers;
 
+use Rinvex\Tags\Models\Tag;
 use Illuminate\Support\ServiceProvider;
-use Rinvex\Tags\Contracts\TagContract;
 use Rinvex\Tags\Console\Commands\MigrateCommand;
+use Rinvex\Tags\Console\Commands\PublishCommand;
+use Rinvex\Tags\Console\Commands\RollbackCommand;
 
 class TagsServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,8 @@ class TagsServiceProvider extends ServiceProvider
      */
     protected $commands = [
         MigrateCommand::class => 'command.rinvex.tags.migrate',
+        PublishCommand::class => 'command.rinvex.tags.publish',
+        RollbackCommand::class => 'command.rinvex.tags.rollback',
     ];
 
     /**
@@ -28,10 +32,8 @@ class TagsServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.tags');
 
         // Bind eloquent models to IoC container
-        $this->app->singleton('rinvex.tags.tag', function ($app) {
-            return new $app['config']['rinvex.tags.models.tag']();
-        });
-        $this->app->alias('rinvex.tags.tag', TagContract::class);
+        $this->app->singleton('rinvex.tags.tag', $tagModel = $this->app['config']['rinvex.tags.models.tag']);
+        $tagModel === Tag::class || $this->app->alias('rinvex.tags.tag', Tag::class);
 
         // Register console commands
         ! $this->app->runningInConsole() || $this->registerCommands();
@@ -54,7 +56,7 @@ class TagsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function publishResources()
+    protected function publishResources(): void
     {
         $this->publishes([realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.tags.php')], 'rinvex-tags-config');
         $this->publishes([realpath(__DIR__.'/../../database/migrations') => database_path('migrations')], 'rinvex-tags-migrations');
@@ -65,13 +67,11 @@ class TagsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerCommands()
+    protected function registerCommands(): void
     {
         // Register artisan commands
         foreach ($this->commands as $key => $value) {
-            $this->app->singleton($value, function ($app) use ($key) {
-                return new $key();
-            });
+            $this->app->singleton($value, $key);
         }
 
         $this->commands(array_values($this->commands));

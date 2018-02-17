@@ -3,11 +3,9 @@
 **Rinvex Tags** is a polymorphic Laravel package, for tag management. You can tag any eloquent model with ease, and utilize the awesomeness of **[Sluggable](https://github.com/spatie/laravel-sluggable)**, and **[Translatable](https://github.com/spatie/laravel-translatable)** models out of the box.
 
 [![Packagist](https://img.shields.io/packagist/v/rinvex/tags.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/tags)
-[![VersionEye Dependencies](https://img.shields.io/versioneye/d/php/rinvex:tags.svg?label=Dependencies&style=flat-square)](https://www.versioneye.com/php/rinvex:tags/)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/tags.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/tags/)
 [![Code Climate](https://img.shields.io/codeclimate/github/rinvex/tags.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/tags)
 [![Travis](https://img.shields.io/travis/rinvex/tags.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/tags)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/898fbbb8-7104-4c58-bb85-d9ada4afe481.svg?label=SensioLabs&style=flat-square)](https://insight.sensiolabs.com/projects/898fbbb8-7104-4c58-bb85-d9ada4afe481)
 [![StyleCI](https://styleci.io/repos/87597843/shield)](https://styleci.io/repos/87597843)
 [![License](https://img.shields.io/packagist/l/rinvex/tags.svg?label=License&style=flat-square)](https://github.com/rinvex/tags/blob/develop/LICENSE)
 
@@ -29,24 +27,9 @@
 
 ## Usage
 
-### Create Your Model
+To add tags support to your eloquent models simply use `\Rinvex\Tags\Traits\Taggable` trait.
 
-Simply create a new eloquent model, and use `\Rinvex\Tags\Traits\Taggable` trait:
-
-```php
-namespace App\Models;
-
-use Rinvex\Tags\Traits\Taggable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-
-class Post extends Model
-{
-    use Taggable;
-}
-```
-
-### Manage Your Tags
+### Manage your tags
 
 Your tags are just normal [eloquent](https://laravel.com/docs/master/eloquent) models, so you can deal with it like so. There's few more methods added to tag models for your convenience, let's take a look:
 
@@ -80,22 +63,19 @@ app('rinvex.tags.tag')->findByNameOrCreate('My Brand New Tag');
 
 // Find tag(s) by name, group, and translation or create if not exists
 app('rinvex.tags.tag')->findByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
-
-// Find tag(s) by group using query scopes
-app('rinvex.tags.tag')->withGroup('blog')->get();
 ```
 
 > **Notes:** 
 > - **Rinvex Tags** extends and utilizes other awesome packages, to be translatable out of the box using [`spatie/laravel-translatable`](https://github.com/spatie/laravel-translatable), and for automatic Slugging it uses [`spatie/laravel-sluggable`](https://github.com/spatie/laravel-sluggable) packages. Them them out.
 > - Both `findByName()` and `findByNameOrCreate()` methods accepts either one or more tags as their first argument, and always return a collection.
 
-### Manage Your Taggable Model
+### Manage your taggable model
 
 The API is intutive and very straightfarwad, so let's give it a quick look:
 
 ```php
-// Instantiate your model
-$post = new \App\Models\Post();
+// Get instance of your model
+$post = new \App\Models\Post::find(1);
 
 // Get attached tags collection
 $post->tags;
@@ -179,9 +159,9 @@ $post->hasAnyTags($tagInstances);
 > - The `hasAnyTags()` method check if **ANY** of the given tags are attached to the model. It returns boolean `true` or `false` as a result.
 > - Similarly the `hasAllTags()` method uses **exactly** the same signature as the `hasAnyTags()` method, but it behaves differently and performs a strict comparison to check if **ALL** of the given tags are attached.
 
-### Advanced Usage
+### Advanced usage
 
-#### Generate Tag Slugs
+#### Generate tag slugs
 
 **Rinvex Tags** auto generates slugs and auto detect and insert default translation for you if not provided, but you still can pass it explicitly through normal eloquent `create` method, as follows:
 
@@ -191,11 +171,11 @@ app('rinvex.tags.tag')->create(['name' => ['en' => 'My New Tag'], 'slug' => 'cus
 
 > **Note:** Check **[Sluggable](https://github.com/spatie/laravel-sluggable)** package for further details.
 
-#### Smart Parameter Detection
+#### Smart parameter detection
 
 **Rinvex Tags** methods that accept list of tags are smart enough to handle almost all kinds of inputs as you've seen in the above examples. It will check input type and behave accordingly. 
 
-#### Retrieve All Models Attached To The Tag
+#### Retrieve all models attached to the tag
 
 You may encounter a situation where you need to get all models attached to certain tag, you do so with ease as follows:
 
@@ -204,7 +184,7 @@ $tag = app('rinvex.tags.tag')->find(1);
 $tag->entries(\App\Models\Post::class)->get();
 ```
 
-#### Query Scopes
+#### Query scopes
 
 Yes, **Rinvex Tags** shipped with few awesome query scopes for your convenience, usage example:
 
@@ -243,7 +223,7 @@ $post->withAnyTags($tagInstances)->get();
 > - The `withAnyTags()` scope finds posts with **ANY** attached tags of the given. It returns normally a query builder, so you can chain it or call `get()` method for example to execute and get results.
 > - Similarly there's few other scopes like `withAllTags()` that finds posts with **ALL** attached tags of the given, `withoutTags()` which finds posts without **ANY** attached tags of the given, and lastly `withoutAnyTags()` which find posts without **ANY** attached tags at all. All scopes are created equal, with same signature, and returns query builder.
 
-#### Tag Translations
+#### Tag translations
 
 Manage tag translations with ease as follows:
 
@@ -315,4 +295,4 @@ Rinvex is a software solutions startup, specialized in integrated enterprise sol
 
 This software is released under [The MIT License (MIT)](LICENSE).
 
-(c) 2016-2017 Rinvex LLC, Some rights reserved.
+(c) 2016-2018 Rinvex LLC, Some rights reserved.

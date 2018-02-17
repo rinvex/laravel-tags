@@ -13,7 +13,7 @@ class CreateTagsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(config('rinvex.tags.tables.tags'), function (Blueprint $table) {
             // Columns
@@ -36,7 +36,7 @@ class CreateTagsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(config('rinvex.tags.tables.tags'));
     }
@@ -46,7 +46,7 @@ class CreateTagsTable extends Migration
      *
      * @return string
      */
-    protected function jsonable()
+    protected function jsonable(): string
     {
         return DB::connection()->getPdo()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql'
                && version_compare(DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '5.7.8', 'ge')

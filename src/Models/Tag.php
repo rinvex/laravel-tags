@@ -4,32 +4,31 @@ declare(strict_types=1);
 
 namespace Rinvex\Tags\Models;
 
-use Spatie\Sluggable\HasSlug;
+use Rinvex\Tags\Traits\Taggable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Collection;
-use Rinvex\Tags\Traits\Taggable;
+use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
-use Rinvex\Tags\Contracts\TagContract;
 use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * Rinvex\Tags\Models\Tag.
  *
- * @property int            $id
- * @property string         $slug
- * @property array          $name
- * @property array          $description
- * @property int            $sort_order
- * @property string         $group
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
+ * @property int                 $id
+ * @property string              $slug
+ * @property array               $name
+ * @property array               $description
+ * @property int                 $sort_order
+ * @property string              $group
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag ordered($direction = 'asc')
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereCreatedAt($value)
@@ -41,10 +40,9 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSortOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag withGroup($group = null)
  * @mixin \Eloquent
  */
-class Tag extends Model implements TagContract, Sortable
+class Tag extends Model implements Sortable
 {
     use HasSlug;
     use SortableTrait;
@@ -135,23 +133,6 @@ class Tag extends Model implements TagContract, Sortable
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        // Early auto generate slugs before validation
-        static::validating(function (self $tag) {
-            if ($tag->exists && $tag->getSlugOptions()->generateSlugsOnUpdate) {
-                $tag->generateSlugOnUpdate();
-            } elseif (! $tag->exists && $tag->getSlugOptions()->generateSlugsOnCreate) {
-                $tag->generateSlugOnCreate();
-            }
-        });
-    }
-
-    /**
      * Get all attached models of the given class to the tag.
      *
      * @param string $class
@@ -170,7 +151,7 @@ class Tag extends Model implements TagContract, Sortable
      *
      * @return void
      */
-    public function setGroupAttribute($value)
+    public function setGroupAttribute($value): void
     {
         $this->attributes['group'] = str_slug($value);
     }
@@ -189,19 +170,6 @@ class Tag extends Model implements TagContract, Sortable
     }
 
     /**
-     * Scope tags by given group.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param string                                $group
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeWithGroup(Builder $builder, string $group): Builder
-    {
-        return $builder->where('group', $group);
-    }
-
-    /**
      * Get first tag(s) by name or create if not exists.
      *
      * @param mixed       $tags
@@ -214,7 +182,7 @@ class Tag extends Model implements TagContract, Sortable
     {
         $locale = $locale ?? app()->getLocale();
 
-        return collect(Taggable::parseTags($tags))->map(function (string $tag) use ($group, $locale) {
+        return collect(Taggable::parseDelimitedTags($tags))->map(function (string $tag) use ($group, $locale) {
             return static::firstByName($tag, $group, $locale) ?: static::createByName($tag, $group, $locale);
         });
     }
@@ -232,8 +200,8 @@ class Tag extends Model implements TagContract, Sortable
     {
         $locale = $locale ?? app()->getLocale();
 
-        return collect(Taggable::parseTags($tags))->map(function (string $tag) use ($group, $locale) {
-            return ($exists = static::firstByName($tag, $group, $locale)) ? $exists->id : null;
+        return collect(Taggable::parseDelimitedTags($tags))->map(function (string $tag) use ($group, $locale) {
+            return ($exists = static::firstByName($tag, $group, $locale)) ? $exists->getKey() : null;
         })->filter()->unique();
     }
 
@@ -264,7 +232,7 @@ class Tag extends Model implements TagContract, Sortable
      *
      * @return static
      */
-    public static function createByName(string $tag, string $group = null, string $locale = null): Tag
+    public static function createByName(string $tag, string $group = null, string $locale = null): self
     {
         $locale = $locale ?? app()->getLocale();
 
