@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v0.0.4] - 2018-02-18
+- Add PublishCommand to artisan
+- Update supplementary files
+- Move slug auto generation to the custom HasSlug trait
+- Add Rollback Console Command
+- Add missing composer dependencies
+- Add PHPUnitPrettyResultPrinter
+- Remove useless scopes
+- Refactor taggable trait for more simple and clean code
+- Update composer dependencies
+- Typehint method returns
+- Drop useless model contracts (models already swappable through IoC)
+- Add Laravel v5.6 support
+- Simplify IoC binding
+- Refactor parseTags
+- Fix wrong parameter names
+- Add force option to artisan commands
+- Drop Laravel 5.5 support
+
 ## [v0.0.3] - 2017-09-09
 - Fix many issues and apply many enhancements
 - Rename package rinvex/tags from rinvex/taggable
@@ -23,5 +42,6 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-04-08
 - Rename package to "rinvex/taggable" from "rinvex/tag" based on 3b6a727
 
+[v0.0.4]: https://github.com/rinvex/tags/compare/v0.0.3...v0.0.4
 [v0.0.3]: https://github.com/rinvex/tags/compare/v0.0.2...v0.0.3
 [v0.0.2]: https://github.com/rinvex/tags/compare/v0.0.1...v0.0.2
