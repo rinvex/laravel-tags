@@ -34,40 +34,40 @@ To add tags support to your eloquent models simply use `\Rinvex\Tags\Traits\Tagg
 Your tags are just normal [eloquent](https://laravel.com/docs/master/eloquent) models, so you can deal with it like so. There's few more methods added to tag models for your convenience, let's take a look:
 
 ```php
-// Create new tag by name
-app('rinvex.tags.tag')->createByName('My New Tag');
+// Create new tag by title
+app('rinvex.tags.tag')->createByTitle('My New Tag');
 
-// Create new tag by name, group, and translation
-app('rinvex.tags.tag')->createByName('The very new tag', 'blog', 'en');
+// Create new tag by title, group, and translation
+app('rinvex.tags.tag')->createByTitle('The very new tag', 'blog', 'en');
 
-// Find first tag by name
-app('rinvex.tags.tag')->firstByName('My New Tag');
+// Find first tag by title
+app('rinvex.tags.tag')->firstByTitle('My New Tag');
 
-// Find first tag by name, group, and translation
-app('rinvex.tags.tag')->firstByName('وسم جديد', 'board', 'ar');
+// Find first tag by title, group, and translation
+app('rinvex.tags.tag')->firstByTitle('وسم جديد', 'board', 'ar');
 
-// Find tag(s) by name
-app('rinvex.tags.tag')->findByName('My New Tag');
+// Find tag(s) by title
+app('rinvex.tags.tag')->findByTitle('My New Tag');
 
-// Find tag(s) by name, group, and translation
-app('rinvex.tags.tag')->findByName('وسم جديد', 'board', 'ar');
+// Find tag(s) by title, group, and translation
+app('rinvex.tags.tag')->findByTitle('وسم جديد', 'board', 'ar');
 
-// Find multiple tags by names array
-app('rinvex.tags.tag')->findByName(['Tag One', 'Tag Two']);
+// Find multiple tags by titles array
+app('rinvex.tags.tag')->findByTitle(['Tag One', 'Tag Two']);
 
-// Find multiple tags by delimited names (tag delimiter is customizable)
-app('rinvex.tags.tag')->findByName('First Tag, Second Tag, Third Tag');
+// Find multiple tags by delimited titles (tag delimiter is customizable)
+app('rinvex.tags.tag')->findByTitle('First Tag, Second Tag, Third Tag');
 
-// Find tag(s) by name or create if not exists
-app('rinvex.tags.tag')->findByNameOrCreate('My Brand New Tag');
+// Find tag(s) by title or create if not exists
+app('rinvex.tags.tag')->findByTitleOrCreate('My Brand New Tag');
 
-// Find tag(s) by name, group, and translation or create if not exists
-app('rinvex.tags.tag')->findByNameOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
+// Find tag(s) by title, group, and translation or create if not exists
+app('rinvex.tags.tag')->findByTitleOrCreate(['My Brand New Tag 2', 'My Brand New Tag 3']);
 ```
 
 > **Notes:** 
 > - **Rinvex Tags** extends and utilizes other awesome packages, to be translatable out of the box using [`spatie/laravel-translatable`](https://github.com/spatie/laravel-translatable), and for automatic Slugging it uses [`spatie/laravel-sluggable`](https://github.com/spatie/laravel-sluggable) packages. Them them out.
-> - Both `findByName()` and `findByNameOrCreate()` methods accepts either one or more tags as their first argument, and always return a collection.
+> - Both `findByTitle()` and `findByTitleOrCreate()` methods accepts either one or more tags as their first argument, and always return a collection.
 
 ### Manage your taggable model
 
@@ -100,16 +100,16 @@ $post->attachTags(collect([1, 2, 5]));
 $tagInstance = app('rinvex.tags.tag')->first();
 $post->attachTags($tagInstance);
 
-// Single tag name (created if not exists)
+// Single tag title (created if not exists)
 $post->attachTags('A very new tag');
 
-// Multiple delimited tag names (use existing, create not existing)
+// Multiple delimited tag titles (use existing, create not existing)
 $post->attachTags('First Tag, Second Tag, Third Tag');
 
-// Multiple tag names array (use existing, create not existing)
+// Multiple tag titles array (use existing, create not existing)
 $post->attachTags(['First Tag', 'Second Tag']);
 
-// Multiple tag names collection (use existing, create not existing)
+// Multiple tag titles collection (use existing, create not existing)
 $post->attachTags(collect(['First Tag', 'Second Tag']));
 
 // Multiple tag model instances
@@ -120,7 +120,7 @@ $post->attachTags($tagInstances);
 > **Notes:** 
 > - The `attachTags()` method attach the given tags to the model without touching the currently attached tags, while there's the `syncTags()` method that can detach any records that's not in the given items, this method takes a second optional boolean parameter that's set detaching flag to `true` or `false`.
 > - To detach model tags you can use the `detachTags()` method, which uses **exactly** the same signature as the `attachTags()` method, with additional feature of detaching all currently attached tags by passing null or nothing to that method as follows: `$post->detachTags();`.
-> - You may have multiple tags with the same name and the same locale, in such case the first record found is used by default. This is intended by design to ensure a consistent behavior across all functionality whether you are attaching, detaching, or scoping model tags.
+> - You may have multiple tags with the same title and the same locale, in such case the first record found is used by default. This is intended by design to ensure a consistent behavior across all functionality whether you are attaching, detaching, or scoping model tags.
 
 And as you may have expected, you can check if tags attached:
 
@@ -138,16 +138,16 @@ $post->hasAnyTags(collect([1, 2, 5]));
 $tagInstance = app('rinvex.tags.tag')->first();
 $post->hasAnyTags($tagInstance);
 
-// Single tag name
+// Single tag title
 $post->hasAnyTags('A very new tag');
 
-// Multiple delimited tag names
+// Multiple delimited tag titles
 $post->hasAnyTags('First Tag, Second Tag, Third Tag');
 
-// Multiple tag names array
+// Multiple tag titles array
 $post->hasAnyTags(['First Tag', 'Second Tag']);
 
-// Multiple tag names collection
+// Multiple tag titles collection
 $post->hasAnyTags(collect(['First Tag', 'Second Tag']));
 
 // Multiple tag model instances
@@ -166,7 +166,7 @@ $post->hasAnyTags($tagInstances);
 **Rinvex Tags** auto generates slugs and auto detect and insert default translation for you if not provided, but you still can pass it explicitly through normal eloquent `create` method, as follows:
 
 ```php
-app('rinvex.tags.tag')->create(['name' => ['en' => 'My New Tag'], 'slug' => 'custom-tag-slug']);
+app('rinvex.tags.tag')->create(['title' => ['en' => 'My New Tag'], 'slug' => 'custom-tag-slug']);
 ```
 
 > **Note:** Check **[Sluggable](https://github.com/spatie/laravel-sluggable)** package for further details.
@@ -202,16 +202,16 @@ $post->withAnyTags(collect([1, 2, 5]))->get();
 $tagInstance = app('rinvex.tags.tag')->first();
 $post->withAnyTags($tagInstance)->get();
 
-// Single tag name
+// Single tag title
 $post->withAnyTags('A very new tag')->get();
 
-// Multiple delimited tag names
+// Multiple delimited tag titles
 $post->withAnyTags('First Tag, Second Tag, Third Tag');
 
-// Multiple tag names array
+// Multiple tag titles array
 $post->withAnyTags(['First Tag', 'Second Tag'])->get();
 
-// Multiple tag names collection
+// Multiple tag titles collection
 $post->withAnyTags(collect(['First Tag', 'Second Tag']))->get();
 
 // Multiple tag model instances
@@ -230,25 +230,25 @@ Manage tag translations with ease as follows:
 ```php
 $tag = app('rinvex.tags.tag')->find(1);
 
-// Update name translations
-$tag->setTranslation('name', 'en', 'New English Tag Name')->save();
+// Update title translations
+$tag->setTranslation('title', 'en', 'New English Tag Title')->save();
 
 // Alternatively you can use default eloquent update
 $tag->update([
-    'name' => [
+    'title' => [
         'en' => 'New Tag',
         'ar' => 'وسم جديد',
     ],
 ]);
 
 // Get single tag translation
-$tag->getTranslation('name', 'en');
+$tag->getTranslation('title', 'en');
 
 // Get all tag translations
-$tag->getTranslations('name');
+$tag->getTranslations('title');
 
-// Get tag name in default locale
-$tag->name;
+// Get tag title in default locale
+$tag->title;
 ```
 
 > **Note:** Check **[Translatable](https://github.com/spatie/laravel-translatable)** package for further details.

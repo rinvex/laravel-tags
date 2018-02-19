@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  *
  * @property int                 $id
  * @property string              $slug
- * @property array               $name
+ * @property array               $title
  * @property array               $description
  * @property int                 $sort_order
  * @property string              $group
@@ -36,7 +36,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereGroup($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSortOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereUpdatedAt($value)
@@ -55,7 +55,7 @@ class Tag extends Model implements Sortable
      */
     protected $fillable = [
         'slug',
-        'name',
+        'title',
         'description',
         'sort_order',
         'group',
@@ -85,7 +85,7 @@ class Tag extends Model implements Sortable
      * @var array
      */
     public $translatable = [
-        'name',
+        'title',
         'description',
     ];
 
@@ -125,7 +125,7 @@ class Tag extends Model implements Sortable
         $this->setTable(config('rinvex.tags.tables.tags'));
         $this->setRules([
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.tags.tables.tags').',slug',
-            'name' => 'required|string|max:150',
+            'title' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'sort_order' => 'nullable|integer|max:10000000',
             'group' => 'nullable|string|max:150',
@@ -165,12 +165,12 @@ class Tag extends Model implements Sortable
     {
         return SlugOptions::create()
                           ->doNotGenerateSlugsOnUpdate()
-                          ->generateSlugsFrom('name')
+                          ->generateSlugsFrom('title')
                           ->saveSlugsTo('slug');
     }
 
     /**
-     * Get first tag(s) by name or create if not exists.
+     * Get first tag(s) by title or create if not exists.
      *
      * @param mixed       $tags
      * @param string|null $group
@@ -178,17 +178,17 @@ class Tag extends Model implements Sortable
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function findByNameOrCreate($tags, string $group = null, string $locale = null): Collection
+    public static function findByTitleOrCreate($tags, string $group = null, string $locale = null): Collection
     {
         $locale = $locale ?? app()->getLocale();
 
         return collect(Taggable::parseDelimitedTags($tags))->map(function (string $tag) use ($group, $locale) {
-            return static::firstByName($tag, $group, $locale) ?: static::createByName($tag, $group, $locale);
+            return static::firstByTitle($tag, $group, $locale) ?: static::createByTitle($tag, $group, $locale);
         });
     }
 
     /**
-     * Find tag by name.
+     * Find tag by title.
      *
      * @param mixed       $tags
      * @param string|null $group
@@ -196,17 +196,17 @@ class Tag extends Model implements Sortable
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function findByName($tags, string $group = null, string $locale = null): Collection
+    public static function findByTitle($tags, string $group = null, string $locale = null): Collection
     {
         $locale = $locale ?? app()->getLocale();
 
         return collect(Taggable::parseDelimitedTags($tags))->map(function (string $tag) use ($group, $locale) {
-            return ($exists = static::firstByName($tag, $group, $locale)) ? $exists->getKey() : null;
+            return ($exists = static::firstByTitle($tag, $group, $locale)) ? $exists->getKey() : null;
         })->filter()->unique();
     }
 
     /**
-     * Get first tag by name.
+     * Get first tag by title.
      *
      * @param string      $tag
      * @param string|null $group
@@ -214,17 +214,17 @@ class Tag extends Model implements Sortable
      *
      * @return static|null
      */
-    public static function firstByName(string $tag, string $group = null, string $locale = null)
+    public static function firstByTitle(string $tag, string $group = null, string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
 
-        return static::query()->where("name->{$locale}", $tag)->when($group, function (Builder $builder) use ($group) {
+        return static::query()->where("title->{$locale}", $tag)->when($group, function (Builder $builder) use ($group) {
             return $builder->where('group', $group);
         })->first();
     }
 
     /**
-     * Create tag by name.
+     * Create tag by title.
      *
      * @param string      $tag
      * @param string|null $locale
@@ -232,12 +232,12 @@ class Tag extends Model implements Sortable
      *
      * @return static
      */
-    public static function createByName(string $tag, string $group = null, string $locale = null): self
+    public static function createByTitle(string $tag, string $group = null, string $locale = null): self
     {
         $locale = $locale ?? app()->getLocale();
 
         return static::create([
-            'name' => [$locale => $tag],
+            'title' => [$locale => $tag],
             'group' => $group,
         ]);
     }
