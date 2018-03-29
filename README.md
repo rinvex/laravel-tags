@@ -161,12 +161,12 @@ $post->hasAnyTags($tagInstances);
 
 ### Advanced usage
 
-#### Generate tag names
+#### Generate tag slugs
 
-**Rinvex Tags** auto generates names and auto detect and insert default translation for you if not provided, but you still can pass it explicitly through normal eloquent `create` method, as follows:
+**Rinvex Tags** auto generates slugs and auto detect and insert default translation for you if not provided, but you still can pass it explicitly through normal eloquent `create` method, as follows:
 
 ```php
-app('rinvex.tags.tag')->create(['title' => ['en' => 'My New Tag'], 'name' => 'custom-tag-name']);
+app('rinvex.tags.tag')->create(['title' => ['en' => 'My New Tag'], 'slug' => 'custom-tag-slug']);
 ```
 
 > **Note:** Check **[Sluggable](https://github.com/spatie/laravel-sluggable)** package for further details.

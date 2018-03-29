@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * Rinvex\Tags\Models\Tag.
  *
  * @property int                 $id
- * @property string              $name
+ * @property string              $slug
  * @property array               $title
  * @property array               $description
  * @property int                 $sort_order
@@ -37,7 +37,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereGroup($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereSortOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Tags\Models\Tag whereUpdatedAt($value)
  * @mixin \Eloquent
@@ -54,7 +54,7 @@ class Tag extends Model implements Sortable
      * {@inheritdoc}
      */
     protected $fillable = [
-        'name',
+        'slug',
         'title',
         'description',
         'sort_order',
@@ -65,7 +65,7 @@ class Tag extends Model implements Sortable
      * {@inheritdoc}
      */
     protected $casts = [
-        'name' => 'string',
+        'slug' => 'string',
         'sort_order' => 'integer',
         'group' => 'string',
         'deleted_at' => 'datetime',
@@ -124,7 +124,7 @@ class Tag extends Model implements Sortable
 
         $this->setTable(config('rinvex.tags.tables.tags'));
         $this->setRules([
-            'name' => 'required|alpha_dash|max:150|unique:'.config('rinvex.tags.tables.tags').',name',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.tags.tables.tags').',slug',
             'title' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'sort_order' => 'nullable|integer|max:10000000',
@@ -166,7 +166,7 @@ class Tag extends Model implements Sortable
         return SlugOptions::create()
                           ->doNotGenerateSlugsOnUpdate()
                           ->generateSlugsFrom('title')
-                          ->saveSlugsTo('name');
+                          ->saveSlugsTo('slug');
     }
 
     /**
