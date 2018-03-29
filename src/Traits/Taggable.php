@@ -315,6 +315,6 @@ trait Taggable
             return is_string($item);
         });
 
-        return $tags->merge(app('rinvex.tags.tag')->{$create ? 'findByTitleOrCreate' : 'findByTitle'}($strings->toArray(), $group, $locale)->pluck('id'))->toArray();
+        return $tags->merge(app('rinvex.tags.tag')->{$create ? 'findByNameOrCreate' : 'findByName'}($strings->toArray(), $group, $locale)->pluck('id'))->toArray();
     }
 }
