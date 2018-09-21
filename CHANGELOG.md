@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v0.0.5] - 2018-09-21
+- Update travis php versions
+- Fix wrong function names
+- Drop StyleCI multi-language support (paid feature now!)
+- Update composer dependencies
+- Prepare and tweak testing configuration
+- Highlight variables in strings explicitly
+- Update PHPUnit options
+- Add tag model factory
+
 ## [v0.0.4] - 2018-02-18
 - Add PublishCommand to artisan
 - Update supplementary files
@@ -42,6 +52,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-04-08
 - Rename package to "rinvex/taggable" from "rinvex/tag" based on 3b6a727
 
+[v0.0.5]: https://github.com/rinvex/tags/compare/v0.0.4...v0.0.5
 [v0.0.4]: https://github.com/rinvex/tags/compare/v0.0.3...v0.0.4
 [v0.0.3]: https://github.com/rinvex/tags/compare/v0.0.2...v0.0.3
 [v0.0.2]: https://github.com/rinvex/tags/compare/v0.0.1...v0.0.2
