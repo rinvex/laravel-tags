@@ -303,7 +303,7 @@ trait Taggable
     {
         (is_iterable($rawTags) || is_null($rawTags)) || $rawTags = [$rawTags];
 
-        list($strings, $tags) = collect($rawTags)->map(function ($tag) {
+        [$strings, $tags] = collect($rawTags)->map(function ($tag) {
             ! is_numeric($tag) || $tag = (int) $tag;
 
             ! $tag instanceof Model || $tag = [$tag->getKey()];
