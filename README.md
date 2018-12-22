@@ -22,7 +22,12 @@
     php artisan rinvex:migrate:tags
     ```
 
-3. Done!
+3. **Optional** if you want to change the configurations:
+    ```shell
+    php artisan rinvex:publish:tags
+    ```
+
+4. Done!
 
 
 ## Usage
