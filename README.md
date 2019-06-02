@@ -4,7 +4,6 @@
 
 [![Packagist](https://img.shields.io/packagist/v/rinvex/laravel-tags.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/laravel-tags)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/laravel-tags.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/laravel-tags/)
-[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/laravel-tags.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/laravel-tags)
 [![Travis](https://img.shields.io/travis/rinvex/laravel-tags.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/laravel-tags)
 [![StyleCI](https://styleci.io/repos/87597843/shield)](https://styleci.io/repos/87597843)
 [![License](https://img.shields.io/packagist/l/rinvex/laravel-tags.svg?label=License&style=flat-square)](https://github.com/rinvex/laravel-tags/blob/develop/LICENSE)
