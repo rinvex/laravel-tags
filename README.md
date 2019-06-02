@@ -17,14 +17,14 @@
     composer require rinvex/laravel-tags
     ```
 
-2. Execute migrations via the following command:
-    ```
-    php artisan rinvex:migrate:tags
-    ```
-
-3. **Optional** if you want to change the configurations:
+2. Publish resources (migrations and config files):
     ```shell
     php artisan rinvex:publish:tags
+    ```
+
+3. Execute migrations via the following command:
+    ```shell
+    php artisan rinvex:migrate:tags
     ```
 
 4. Done!
