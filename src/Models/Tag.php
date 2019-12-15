@@ -12,6 +12,8 @@ use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Rinvex\Tags\Events\TagCreated;
+use Rinvex\Tags\Events\TagDeleted;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
@@ -77,6 +79,16 @@ class Tag extends Model implements Sortable
     protected $observables = [
         'validating',
         'validated',
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => TagCreated::class,
+        'deleted' => TagDeleted::class,
     ];
 
     /**
