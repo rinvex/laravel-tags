@@ -54,6 +54,6 @@ class TagDeleted implements ShouldBroadcast
      */
     protected function formatChannelName(): string
     {
-        return 'rinvex.tags.count';
+        return 'rinvex.tags.list';
     }
 }

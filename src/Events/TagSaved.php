@@ -44,7 +44,7 @@ class TagSaved implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return 'rinvex.tags.created';
+        return 'rinvex.tags.saved';
     }
 
     /**
@@ -54,6 +54,6 @@ class TagSaved implements ShouldBroadcast
      */
     protected function formatChannelName(): string
     {
-        return 'rinvex.tags.count';
+        return 'rinvex.tags.list';
     }
 }
