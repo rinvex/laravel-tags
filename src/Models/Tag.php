@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Rinvex\Tags\Models;
 
+use Rinvex\Tags\Events\TagSaved;
 use Rinvex\Tags\Traits\Taggable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Collection;
 use Rinvex\Support\Traits\HasSlug;
-use Rinvex\Tags\Events\TagSaved;
 use Rinvex\Tags\Events\TagDeleted;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
