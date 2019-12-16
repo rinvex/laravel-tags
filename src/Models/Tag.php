@@ -8,7 +8,7 @@ use Rinvex\Tags\Traits\Taggable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Collection;
 use Rinvex\Support\Traits\HasSlug;
-use Rinvex\Tags\Events\TagCreated;
+use Rinvex\Tags\Events\TagSaved;
 use Rinvex\Tags\Events\TagDeleted;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
@@ -87,7 +87,7 @@ class Tag extends Model implements Sortable
      * @var array
      */
     protected $dispatchesEvents = [
-        'created' => TagCreated::class,
+        'saved' => TagSaved::class,
         'deleted' => TagDeleted::class,
     ];
 

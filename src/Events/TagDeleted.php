@@ -7,11 +7,13 @@ namespace Rinvex\Tags\Events;
 use Rinvex\Tags\Models\Tag;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class TagDeleted implements ShouldBroadcast
 {
     use SerializesModels;
+    Use InteractsWithSockets;
 
     public $tag;
 
