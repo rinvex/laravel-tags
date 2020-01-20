@@ -50,5 +50,6 @@ class TagsServiceProvider extends ServiceProvider
         // Publish Resources
         ! $this->app->runningInConsole() || $this->publishesConfig('rinvex/laravel-tags');
         ! $this->app->runningInConsole() || $this->publishesMigrations('rinvex/laravel-tags');
+        ! $this->app['config']['rinvex.tags.autoload_migrations'] || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
     }
 }
