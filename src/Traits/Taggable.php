@@ -51,9 +51,16 @@ trait Taggable
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    abstract public function morphToMany($related, $name, $table = null, $foreignPivotKey = null,
-                                         $relatedPivotKey = null, $parentKey = null,
-                                         $relatedKey = null, $inverse = false);
+    abstract public function morphToMany(
+        $related,
+        $name,
+        $table = null,
+        $foreignPivotKey = null,
+        $relatedPivotKey = null,
+        $parentKey = null,
+        $relatedKey = null,
+        $inverse = false
+    );
 
     /**
      * Get all attached tags to the model.

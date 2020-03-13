@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rinvex\Tags\Models;
 
+use Illuminate\Support\Str;
 use Rinvex\Tags\Events\TagSaved;
 use Rinvex\Tags\Traits\Taggable;
 use Spatie\Sluggable\SlugOptions;
@@ -165,7 +166,7 @@ class Tag extends Model implements Sortable
      */
     public function setGroupAttribute($value): void
     {
-        $this->attributes['group'] = str_slug($value);
+        $this->attributes['group'] = Str::slug($value);
     }
 
     /**
