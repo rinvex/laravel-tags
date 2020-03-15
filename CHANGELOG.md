@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v4.0.0] - 2020-03-15
+- Upgrade to Laravel v7.1.x & PHP v7.4.x
+
 ## [v3.0.4] - 2020-03-13
 - Tweak TravisCI config
 - Add migrations autoload option to the package
@@ -93,6 +96,9 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-04-08
 - Rename package to "rinvex/taggable" from "rinvex/tag" based on 3b6a727
 
+[v4.0.0]: https://github.com/rinvex/laravel-tags/compare/v3.0.4...v4.0.0
+[v3.0.4]: https://github.com/rinvex/laravel-tags/compare/v3.0.3...v3.0.4
+[v3.0.3]: https://github.com/rinvex/laravel-tags/compare/v3.0.2...v3.0.3
 [v3.0.2]: https://github.com/rinvex/laravel-tags/compare/v3.0.1...v3.0.2
 [v3.0.1]: https://github.com/rinvex/laravel-tags/compare/v3.0.0...v3.0.1
 [v3.0.0]: https://github.com/rinvex/laravel-tags/compare/v2.1.1...v3.0.0
