@@ -13,7 +13,7 @@ class PublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'rinvex:publish:tags {--force : Overwrite any existing files.} {--R|resource=all}';
+    protected $signature = 'rinvex:publish:tags {--f|force : Overwrite any existing files.} {--r|resource=all}';
 
     /**
      * The console command description.
