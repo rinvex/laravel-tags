@@ -31,7 +31,11 @@ class RollbackCommand extends Command
     {
         $this->alert($this->description);
 
-        if (file_exists($path = 'database/migrations/rinvex/laravel-tags')) {
+        $path = config('rinvex.tags.autoload_migrations') ?
+            'vendor/rinvex/laravel-tags/database/migrations' :
+            'database/migrations/rinvex/laravel-tags';
+
+        if (file_exists($path)) {
             $this->call('migrate:reset', [
                 '--path' => $path,
                 '--force' => $this->option('force'),
