@@ -48,8 +48,8 @@ class TagsServiceProvider extends ServiceProvider
     public function boot()
     {
         // Publish Resources
-        $this->publishesConfig('rinvex/tags');
-        $this->publishesMigrations('rinvex/tags');
-        ! $this->autoloadMigrations('rinvex/tags') || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        $this->publishesConfig('rinvex/laravel-tags');
+        $this->publishesMigrations('rinvex/laravel-tags');
+        ! $this->autoloadMigrations('rinvex/laravel-tags') || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
     }
 }
