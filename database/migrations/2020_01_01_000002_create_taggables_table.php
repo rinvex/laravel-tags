@@ -17,7 +17,7 @@ class CreateTaggablesTable extends Migration
     {
         Schema::create(config('rinvex.tags.tables.taggables'), function (Blueprint $table) {
             // Columns
-            $table->bigInteger('tag_id')->unsigned();
+            $table->integer('tag_id')->unsigned();
             $table->morphs('taggable');
             $table->timestamps();
 
