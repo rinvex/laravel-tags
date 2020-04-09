@@ -39,7 +39,7 @@ class TagsServiceProvider extends ServiceProvider
         $tagModel === Tag::class || $this->app->alias('rinvex.tags.tag', Tag::class);
 
         // Register console commands
-        ! $this->app->runningInConsole() || $this->registerCommands();
+        $this->registerCommands();
     }
 
     /**

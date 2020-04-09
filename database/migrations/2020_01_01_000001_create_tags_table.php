@@ -17,7 +17,7 @@ class CreateTagsTable extends Migration
     {
         Schema::create(config('rinvex.tags.tables.tags'), function (Blueprint $table) {
             // Columns
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('slug');
             $table->{$this->jsonable()}('name');
             $table->{$this->jsonable()}('description')->nullable();
