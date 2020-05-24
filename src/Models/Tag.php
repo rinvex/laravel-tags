@@ -154,7 +154,7 @@ class Tag extends Model implements Sortable
      */
     public function entries(string $class): MorphToMany
     {
-        return $this->morphedByMany($class, 'taggable', config('rinvex.tags.tables.taggables'), 'tag_id', 'taggable_id');
+        return $this->morphedByMany($class, 'taggable', config('rinvex.tags.tables.taggables'), 'tag_id', 'taggable_id', 'id', 'id');
     }
 
     /**
