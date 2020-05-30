@@ -138,10 +138,10 @@ class Tag extends Model implements Sortable
         $this->setTable(config('rinvex.tags.tables.tags'));
         $this->setRules([
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.tags.tables.tags').',slug',
-            'name' => 'required|string|max:150',
+            'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:10000',
-            'sort_order' => 'nullable|integer|max:10000000',
-            'group' => 'nullable|string|max:150',
+            'sort_order' => 'nullable|integer|max:10000',
+            'group' => 'nullable|string|strip_tags|max:150',
         ]);
     }
 
@@ -154,7 +154,7 @@ class Tag extends Model implements Sortable
      */
     public function entries(string $class): MorphToMany
     {
-        return $this->morphedByMany($class, 'taggable', config('rinvex.tags.tables.taggables'), 'tag_id', 'taggable_id');
+        return $this->morphedByMany($class, 'taggable', config('rinvex.tags.tables.taggables'), 'tag_id', 'taggable_id', 'id', 'id');
     }
 
     /**
