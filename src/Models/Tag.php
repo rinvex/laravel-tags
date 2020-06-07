@@ -158,18 +158,6 @@ class Tag extends Model implements Sortable
     }
 
     /**
-     * Enforce clean groups.
-     *
-     * @param string $value
-     *
-     * @return void
-     */
-    public function setGroupAttribute($value): void
-    {
-        $this->attributes['group'] = Str::slug($value);
-    }
-
-    /**
      * Get the options for generating the slug.
      *
      * @return \Spatie\Sluggable\SlugOptions
