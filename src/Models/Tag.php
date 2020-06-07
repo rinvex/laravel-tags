@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rinvex\Tags\Models;
 
-use Illuminate\Support\Str;
 use Rinvex\Tags\Events\TagSaved;
 use Rinvex\Tags\Traits\Taggable;
 use Spatie\Sluggable\SlugOptions;
