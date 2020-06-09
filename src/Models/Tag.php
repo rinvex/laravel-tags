@@ -12,7 +12,6 @@ use Rinvex\Support\Traits\HasSlug;
 use Rinvex\Tags\Events\TagDeleted;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
-use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
@@ -50,7 +49,6 @@ class Tag extends Model implements Sortable
     use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
-    use CacheableEloquent;
 
     /**
      * {@inheritdoc}
