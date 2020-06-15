@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rinvex\Tags\Models;
 
-use Illuminate\Support\Str;
 use Rinvex\Tags\Events\TagSaved;
 use Rinvex\Tags\Traits\Taggable;
 use Spatie\Sluggable\SlugOptions;
@@ -13,7 +12,6 @@ use Rinvex\Support\Traits\HasSlug;
 use Rinvex\Tags\Events\TagDeleted;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
-use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
@@ -51,7 +49,6 @@ class Tag extends Model implements Sortable
     use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
-    use CacheableEloquent;
 
     /**
      * {@inheritdoc}
@@ -155,18 +152,6 @@ class Tag extends Model implements Sortable
     public function entries(string $class): MorphToMany
     {
         return $this->morphedByMany($class, 'taggable', config('rinvex.tags.tables.taggables'), 'tag_id', 'taggable_id', 'id', 'id');
-    }
-
-    /**
-     * Enforce clean groups.
-     *
-     * @param string $value
-     *
-     * @return void
-     */
-    public function setGroupAttribute($value): void
-    {
-        $this->attributes['group'] = Str::slug($value);
     }
 
     /**
