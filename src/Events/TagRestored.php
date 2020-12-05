@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Rinvex\Tags\Events;
 
 use Rinvex\Tags\Models\Tag;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TagSaved implements ShouldBroadcast
+class TagRestored implements ShouldBroadcast
 {
-    use SerializesModels;
     use InteractsWithSockets;
+    use SerializesModels;
+    use Dispatchable;
 
     /**
      * The name of the queue on which to place the event.
@@ -27,7 +29,7 @@ class TagSaved implements ShouldBroadcast
      *
      * @var \Rinvex\Tags\Models\Tag
      */
-    public $tag;
+    public Tag $model;
 
     /**
      * Create a new event instance.
@@ -36,17 +38,20 @@ class TagSaved implements ShouldBroadcast
      */
     public function __construct(Tag $tag)
     {
-        $this->tag = $tag;
+        $this->model = $tag;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel
+     * @return \Illuminate\Broadcasting\Channel|\Illuminate\Broadcasting\Channel[]
      */
     public function broadcastOn()
     {
-        return new Channel($this->formatChannelName());
+        return [
+            new PrivateChannel('rinvex.tags.tags.index'),
+            new PrivateChannel("rinvex.tags.tags.{$this->model->getRouteKey()}"),
+        ];
     }
 
     /**
@@ -56,16 +61,6 @@ class TagSaved implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return 'rinvex.tags.saved';
-    }
-
-    /**
-     * Format channel name.
-     *
-     * @return string
-     */
-    protected function formatChannelName(): string
-    {
-        return 'rinvex.tags.list';
+        return 'tag.restored';
     }
 }

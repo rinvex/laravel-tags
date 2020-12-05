@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Rinvex\Tags\Events;
 
 use Rinvex\Tags\Models\Tag;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TagDeleted implements ShouldBroadcast
+class TagCreated implements ShouldBroadcast
 {
     use InteractsWithSockets;
+    use SerializesModels;
     use Dispatchable;
 
     /**
@@ -36,7 +38,7 @@ class TagDeleted implements ShouldBroadcast
      */
     public function __construct(Tag $tag)
     {
-        $this->model = $tag->withoutRelations();
+        $this->model = $tag;
     }
 
     /**
@@ -48,7 +50,6 @@ class TagDeleted implements ShouldBroadcast
     {
         return [
             new PrivateChannel('rinvex.tags.tags.index'),
-            new PrivateChannel("rinvex.tags.tags.{$this->model->getRouteKey()}"),
         ];
     }
 
@@ -59,6 +60,6 @@ class TagDeleted implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return 'tag.deleted';
+        return 'tag.created';
     }
 }

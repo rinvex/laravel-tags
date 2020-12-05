@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Rinvex\Tags\Models;
 
-use Rinvex\Tags\Events\TagSaved;
 use Rinvex\Tags\Traits\Taggable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Collection;
 use Rinvex\Support\Traits\HasSlug;
+use Rinvex\Tags\Events\TagCreated;
 use Rinvex\Tags\Events\TagDeleted;
+use Rinvex\Tags\Events\TagUpdated;
+use Rinvex\Tags\Events\TagRestored;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -85,8 +87,10 @@ class Tag extends Model implements Sortable
      * @var array
      */
     protected $dispatchesEvents = [
-        'saved' => TagSaved::class,
+        'created' => TagCreated::class,
+        'updated' => TagUpdated::class,
         'deleted' => TagDeleted::class,
+        'restored' => TagRestored::class,
     ];
 
     /**
