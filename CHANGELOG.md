@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v5.0.1] - 2020-12-25
+- Add support for PHP v8
+
 ## [v5.0.0] - 2020-12-22
 - Upgrade to Laravel v8
 - Move custom eloquent model events to module layer from core package layer
@@ -140,6 +143,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-04-08
 - Rename package to "rinvex/taggable" from "rinvex/tag" based on 3b6a727
 
+[v5.0.1]: https://github.com/rinvex/laravel-tags/compare/v5.0.0...v5.0.1
 [v5.0.0]: https://github.com/rinvex/laravel-tags/compare/v4.1.1...v5.0.0
 [v4.1.1]: https://github.com/rinvex/laravel-tags/compare/v4.1.0...v4.1.1
 [v4.1.0]: https://github.com/rinvex/laravel-tags/compare/v4.0.6...v4.1.0
