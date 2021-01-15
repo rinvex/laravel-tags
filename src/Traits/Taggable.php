@@ -127,8 +127,8 @@ trait Taggable
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
      * @param mixed                                 $tags
-     * @param string                                $group
-     * @param string                                $locale
+     * @param string|null                           $group
+     * @param string|null                           $locale
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -152,8 +152,8 @@ trait Taggable
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
      * @param mixed                                 $tags
-     * @param string                                $group
-     * @param string                                $locale
+     * @param string|null                           $group
+     * @param string|null                           $locale
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -173,8 +173,8 @@ trait Taggable
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
      * @param mixed                                 $tags
-     * @param string                                $group
-     * @param string                                $locale
+     * @param string|null                           $group
+     * @param string|null                           $locale
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
