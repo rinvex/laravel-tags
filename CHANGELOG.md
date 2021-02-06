@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v5.0.2] - 2021-02-06
+- Simplify service provider model registration into IoC
+- Update phpdoc to match method signature
+- Enable StyleCI risky mode
+
 ## [v5.0.1] - 2020-12-25
 - Add support for PHP v8
 
@@ -143,6 +148,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-04-08
 - Rename package to "rinvex/taggable" from "rinvex/tag" based on 3b6a727
 
+[v5.0.2]: https://github.com/rinvex/laravel-tags/compare/v5.0.1...v5.0.2
 [v5.0.1]: https://github.com/rinvex/laravel-tags/compare/v5.0.0...v5.0.1
 [v5.0.0]: https://github.com/rinvex/laravel-tags/compare/v4.1.1...v5.0.0
 [v4.1.1]: https://github.com/rinvex/laravel-tags/compare/v4.1.0...v4.1.1

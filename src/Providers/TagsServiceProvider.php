@@ -35,8 +35,9 @@ class TagsServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.tags');
 
         // Bind eloquent models to IoC container
-        $this->app->singleton('rinvex.tags.tag', $tagModel = $this->app['config']['rinvex.tags.models.tag']);
-        $tagModel === Tag::class || $this->app->alias('rinvex.tags.tag', Tag::class);
+        $this->registerModels([
+            'rinvex.tags.tag' => Tag::class,
+        ]);
 
         // Register console commands
         $this->registerCommands($this->commands);
