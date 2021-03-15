@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
@@ -44,6 +45,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Tag extends Model implements Sortable
 {
     use HasSlug;
+    use SoftDeletes;
     use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
