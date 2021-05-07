@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v5.0.3] - 2021-05-07
+- Drop old MySQL versions support that doesn't support json columns
+- Upgrade to GitHub-native Dependabot
+- Utilize SoftDeletes
+
 ## [v5.0.2] - 2021-02-06
 - Simplify service provider model registration into IoC
 - Update phpdoc to match method signature
