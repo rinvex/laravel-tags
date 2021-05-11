@@ -120,8 +120,6 @@ class Tag extends Model implements Sortable
      */
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
-
         $this->setTable(config('rinvex.tags.tables.tags'));
         $this->setRules([
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.tags.tables.tags').',slug',
@@ -130,6 +128,8 @@ class Tag extends Model implements Sortable
             'sort_order' => 'nullable|integer|max:100000',
             'group' => 'nullable|string|strip_tags|max:150',
         ]);
+
+        parent::__construct($attributes);
     }
 
     /**
