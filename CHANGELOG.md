@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v6.0.0] - 2021-08-22
+- Drop PHP v7 support, and upgrade rinvex package dependencies to next major version
+- Update composer dependencies
+
 ## [v5.0.5] - 2021-05-24
 - Merge rules instead of resetting, to allow adequate model override
 - Update spatie/eloquent-sortable composer package to v4.0.0
@@ -162,6 +166,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-04-08
 - Rename package to "rinvex/taggable" from "rinvex/tag" based on 3b6a727
 
+[v6.0.0]: https://github.com/rinvex/laravel-tags/compare/v5.0.5...v6.0.0
 [v5.0.5]: https://github.com/rinvex/laravel-tags/compare/v5.0.4...v5.0.5
 [v5.0.4]: https://github.com/rinvex/laravel-tags/compare/v5.0.3...v5.0.4
 [v5.0.3]: https://github.com/rinvex/laravel-tags/compare/v5.0.2...v5.0.3
