@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v6.1.1] - 2022-06-20
+- Update composer dependencies spatie/laravel-translatable to ^6.0.0 from ^5.2.0
+
 ## [v6.1.0] - 2022-02-14
 - Update composer dependencies to Laravel v9
 - Add support for model HasFactory
@@ -171,6 +174,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-04-08
 - Rename package to "rinvex/taggable" from "rinvex/tag" based on 3b6a727
 
+[v6.1.1]: https://github.com/rinvex/laravel-tags/compare/v6.1.0...v6.1.1
 [v6.1.0]: https://github.com/rinvex/laravel-tags/compare/v6.0.0...v6.1.0
 [v6.0.0]: https://github.com/rinvex/laravel-tags/compare/v5.0.5...v6.0.0
 [v5.0.5]: https://github.com/rinvex/laravel-tags/compare/v5.0.4...v5.0.5
