@@ -124,7 +124,7 @@ class Tag extends Model implements Sortable
     {
         $this->setTable(config('rinvex.tags.tables.tags'));
         $this->mergeRules([
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.tags.tables.tags').',slug',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.tags.models.tag').',slug',
             'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:32768',
             'sort_order' => 'nullable|integer|max:100000',
