@@ -75,7 +75,7 @@ app('rinvex.tags.tag')->findByNameOrCreate(['My Brand New Tag 2', 'My Brand New 
 
 ### Manage your taggable model
 
-The API is intutive and very straightfarwad, so let's give it a quick look:
+The API is intutive and very straightforward, so let's give it a quick look:
 
 ```php
 // Get instance of your model
