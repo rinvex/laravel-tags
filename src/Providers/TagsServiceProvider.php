@@ -22,9 +22,9 @@ class TagsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        MigrateCommand::class => 'command.rinvex.tags.migrate',
-        PublishCommand::class => 'command.rinvex.tags.publish',
-        RollbackCommand::class => 'command.rinvex.tags.rollback',
+        MigrateCommand::class,
+        PublishCommand::class,
+        RollbackCommand::class,
     ];
 
     /**
@@ -41,7 +41,7 @@ class TagsServiceProvider extends ServiceProvider
         ]);
 
         // Register console commands
-        $this->registerCommands($this->commands);
+        $this->commands($this->commands);
     }
 
     /**
