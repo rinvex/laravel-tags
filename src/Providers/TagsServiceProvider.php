@@ -10,6 +10,7 @@ use Rinvex\Support\Traits\ConsoleTools;
 use Rinvex\Tags\Console\Commands\MigrateCommand;
 use Rinvex\Tags\Console\Commands\PublishCommand;
 use Rinvex\Tags\Console\Commands\RollbackCommand;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class TagsServiceProvider extends ServiceProvider
 {
@@ -52,5 +53,10 @@ class TagsServiceProvider extends ServiceProvider
         $this->publishesConfig('rinvex/laravel-tags');
         $this->publishesMigrations('rinvex/laravel-tags');
         ! $this->autoloadMigrations('rinvex/laravel-tags') || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        
+        // Map relations
+        Relation::morphMap([
+            'tag' => config('rinvex.tags.models.tag'),
+        ]);
     }
 }
