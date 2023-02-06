@@ -53,7 +53,7 @@ class TagsServiceProvider extends ServiceProvider
         $this->publishesConfig('rinvex/laravel-tags');
         $this->publishesMigrations('rinvex/laravel-tags');
         ! $this->autoloadMigrations('rinvex/laravel-tags') || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
-        
+
         // Map relations
         Relation::morphMap([
             'tag' => config('rinvex.tags.models.tag'),
