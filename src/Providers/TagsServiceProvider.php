@@ -49,11 +49,12 @@ class TagsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Publish Resources
-        $this->publishesConfig('rinvex/laravel-tags');
-        $this->publishesMigrations('rinvex/laravel-tags');
-        ! $this->autoloadMigrations('rinvex/laravel-tags') || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
-        
+        // Register paths to be published by the publish command.
+        $this->publishConfigFrom(__DIR__.'/../../config/config.php', 'rinvex/tags');
+        $this->publishMigrationsFrom(__DIR__.'/../../database/migrations', 'rinvex/tags');
+
+        ! $this->app['config']['rinvex.tags.autoload_migrations'] || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+
         // Map relations
         Relation::morphMap([
             'tag' => config('rinvex.tags.models.tag'),
