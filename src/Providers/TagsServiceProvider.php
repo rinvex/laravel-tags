@@ -50,10 +50,10 @@ class TagsServiceProvider extends ServiceProvider
     public function boot()
     {
         // Register paths to be published by the publish command.
-        $this->publishConfigFrom(__DIR__.'/../../config/config.php', 'rinvex/tags');
-        $this->publishMigrationsFrom(__DIR__.'/../../database/migrations', 'rinvex/tags');
+        $this->publishConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex/tags');
+        $this->publishMigrationsFrom(realpath(__DIR__.'/../../database/migrations'), 'rinvex/tags');
 
-        ! $this->app['config']['rinvex.tags.autoload_migrations'] || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        ! $this->app['config']['rinvex.tags.autoload_migrations'] || $this->loadMigrationsFrom(realpath(__DIR__.'/../../database/migrations'));
 
         // Map relations
         Relation::morphMap([
